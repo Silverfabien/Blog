@@ -3,18 +3,39 @@
     "license": "proprietary",
     "minimum-stability": "dev",
     "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/Silverfabien/Silversat-Permission-Bundle.git",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
     "require": {
         "php": ">=8.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "ext-openssl": "*",
+        "doctrine/doctrine-bundle": "^3.1",
+        "doctrine/doctrine-migrations-bundle": "^4.0",
+        "doctrine/orm": "^3.5",
+        "lexik/jwt-authentication-bundle": "^3.1",
+        "silversat/permission-bundle": "dev-develop",
+        "symfony/amqp-messenger": "7.4.*",
         "symfony/console": "7.4.*",
         "symfony/dotenv": "7.4.*",
-        "symfony/flex": "^2",
+        "symfony/flex": "^2.10",
+        "symfony/form": "7.4.*",
         "symfony/framework-bundle": "7.4.*",
         "symfony/runtime": "7.4.*",
+        "symfony/webpack-encore-bundle": "^2.4",
         "symfony/yaml": "7.4.*"
     },
     "require-dev": {
+        "symfony/maker-bundle": "^1.65",
+        "symfony/stopwatch": "7.4.*",
+        "symfony/web-profiler-bundle": "7.4.*"
     },
     "config": {
         "allow-plugins": {

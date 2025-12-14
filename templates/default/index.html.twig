@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DefaultController!{% endblock %}
+
+{% block body %}
+    {% if session.has('username') %}
+        <p>Bienvenu {{ session.get('username') }}</p>
+    {% else %}
+        <p>Tu n'es pas connecté</p>
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('check_token') }}
+{% endblock %}
