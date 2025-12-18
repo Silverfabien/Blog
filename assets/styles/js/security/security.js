@@ -37,7 +37,7 @@ $(document).ready(function(){
     const baseUrl = window.location.origin;
     const resetPath = '/reset-forgot-password';
     const resetUrl = baseUrl + resetPath;
-    const apiUrl = 'https://127.0.0.1:8000/api'
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     function getResetTokenFormUrl() {
         const match = window.location.pathname.match(/\/reset-forgot-password\/([^/?#]+)/);

@@ -1,7 +1,9 @@
 import $ from 'jquery';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 $.ajax({
-    url: 'https://127.0.0.1:8000/api/logout',
+    url: apiUrl+'/logout',
     method: 'POST',
     xhrFields: { withCredentials: true },
     success: function () {
