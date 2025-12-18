@@ -1,6 +1,10 @@
+import $ from 'jquery';
+
+const apiUrl = import.meta.env.VITE_API_URL;
+
 setInterval(function(){
    $.ajax({
-       url: 'https://127.0.0.1:8000/api/check_token',
+       url: apiUrl+'/check_token',
        method: 'GET',
        xhrFields: { withCredentials: true },
        success: function () {
@@ -9,7 +13,7 @@ setInterval(function(){
        error: function (xhr) {
            if (xhr.status === 401) {
                $.ajax({
-                   url: 'https://127.0.0.1:8000/api/logout',
+                   url: apiUrl+'/logout',
                    method: 'POST',
                    xhrFields: { withCredentials: true },
                    complete: function () {
