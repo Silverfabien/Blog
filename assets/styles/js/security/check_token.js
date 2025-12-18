@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 setInterval(function(){
    $.ajax({
        url: 'https://127.0.0.1:8000/api/check_token',

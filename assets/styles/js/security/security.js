@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 $(document).ready(function(){
     function handleForm(formId, apiUrl, fields, extras = {}) {
         $(formId).on('submit', function(e){
@@ -48,4 +50,4 @@ $(document).ready(function(){
     handleForm('#register-form', apiUrl+'/register', ['username', 'email', 'password']);
     handleForm('#forgot-password-form', apiUrl+'/forgot-password', ['email'], { url: resetUrl });
     handleForm('#reset-forgot-password-form', apiUrl+`/reset-forgot-password/${resetToken}`, ['password']);
-})
+});

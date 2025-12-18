@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 $.ajax({
     url: 'https://127.0.0.1:8000/api/logout',
     method: 'POST',
