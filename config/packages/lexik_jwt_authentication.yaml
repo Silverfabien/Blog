@@ -3,7 +3,7 @@ lexik_jwt_authentication:
     public_key: '%kernel.project_dir%/config/jwt/public.pem'
     pass_phrase: '%env(JWT_PASSPHRASE)%'
     token_ttl:   '%env(JWT_TTL)%'
-    #user_identity_field: email
+    user_id_claim: email
 
     token_extractors:
         authorization_header:

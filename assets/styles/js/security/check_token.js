@@ -1,6 +1,6 @@
 setInterval(function(){
    $.ajax({
-       url: 'https://127.0.0.1:8000/api/check-token',
+       url: 'https://127.0.0.1:8000/api/check_token',
        method: 'GET',
        xhrFields: { withCredentials: true },
        success: function () {
