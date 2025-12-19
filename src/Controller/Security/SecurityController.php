@@ -3,7 +3,6 @@
 namespace App\Controller\Security;
 
 use App\ControllerHandler\SecurityHandler;
-use App\Entity\User\User;
 use App\Form\Security\LoginType;
 use App\Form\Security\RegisterType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -55,11 +54,6 @@ final class SecurityController extends AbstractController
         }
 
         $form = $this->createForm(RegisterType::class);
-
-//        $user = new User();
-//        if ($this->securityHandler->createUser($user)) {
-//            return $this->redirectToRoute('default');
-//        }
 
         return $this->render('security/register.html.twig', [
             'form' => $form->createView(),
