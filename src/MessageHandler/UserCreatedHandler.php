@@ -4,23 +4,28 @@ namespace App\MessageHandler;
 
 use App\Entity\User\User;
 use App\Message\UserCreated;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\User\UserRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-class UserCreatedHandler
+readonly class UserCreatedHandler
 {
-    public function __construct(private EntityManagerInterface $em) {}
+    public function __construct(
+        private UserRepository $userRepository
+    ) {}
 
     public function __invoke(UserCreated $message): void
     {
+        if ($this->userRepository->findOneBy(['userApiId' => $message->id])) {
+            return;
+        }
+
         $user = new User();
         $user->setUserApiId($message->id);
         $user->setUsername($message->username);
         $user->setEmail($message->email);
-        $user->setRole($message->role);
+        $user->setRole("ROLE_USER");
 
-        $this->em->persist($message);
-        $this->em->flush();
+        $this->userRepository->create($user);
     }
 }
