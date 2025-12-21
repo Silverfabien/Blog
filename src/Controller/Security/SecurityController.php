@@ -2,7 +2,6 @@
 
 namespace App\Controller\Security;
 
-use App\ControllerHandler\SecurityHandler;
 use App\Form\Security\LoginType;
 use App\Form\Security\RegisterType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,10 +12,6 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class SecurityController extends AbstractController
 {
-    public function __construct(
-        private readonly SecurityHandler $securityHandler
-    ) {}
-
     private function isConnected(Request $request): ?Response
     {
         $jwt = $request->cookies->get('jwt_token');

@@ -47,7 +47,9 @@ $(document).ready(function(){
     const resetToken = getResetTokenFormUrl();
 
     handleForm('#login-form', apiUrl+'/login_check', ['email', 'password']);
-    handleForm('#register-form', apiUrl+'/register', ['username', 'email', 'password']);
+    handleForm('#register-form', apiUrl+'/register', ['username', 'email', 'password'], {
+        url: baseUrl
+    });
     handleForm('#forgot-password-form', apiUrl+'/forgot-password', ['email'], { url: resetUrl });
     handleForm('#reset-forgot-password-form', apiUrl+`/reset-forgot-password/${resetToken}`, ['password']);
 });
