@@ -15,15 +15,11 @@ class LoginType extends AbstractType
         $builder
             ->add('email', EmailType::class, [
                 'label' => "Votre email",
-                'attr' => [
-                    'autocomplete' => 'email'
-                ]
+                'required' => true
             ])
             ->add('password', PasswordType::class, [
                 'label' => "Votre mot de passe",
-                'attr' => [
-                    'autocomplete' => 'current-password'
-                ]
+                'required' => true
             ])
         ;
     }

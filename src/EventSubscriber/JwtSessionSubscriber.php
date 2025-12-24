@@ -22,7 +22,7 @@ readonly class JwtSessionSubscriber implements EventSubscriberInterface
         $session = $request->getSession();
         $jwtToken = $request->cookies->get('jwt_token');
 
-        if ($jwtToken && !$session->has('id')) {
+        if ($jwtToken) {
             $payload = json_decode(base64_decode(explode(".", $jwtToken)[1]), true);
 
             if ($payload) {
