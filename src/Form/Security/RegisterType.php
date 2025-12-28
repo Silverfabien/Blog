@@ -9,8 +9,6 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 class RegisterType extends AbstractType
 {
@@ -19,44 +17,20 @@ class RegisterType extends AbstractType
         $builder
             ->add('username', TextType::class, [
                 'label' => "Votre pseudo",
-                'required' => true,
-                'constraints' => [
-                    new Length(
-                        max: 20,
-                        maxMessage: "Votre pseudo peut contenir plus de {{ limit }} caractères."
-                    )
-                ]
+                'required' => true
             ])
             ->add('email', EmailType::class, [
                 'label' => "Votre email",
-                'required' => true,
-                'constraints' => [
-                    new Length(
-                        max: 255,
-                        maxMessage: "Votre email ne peut pas contenir plus de {{ limit }} caractères."
-                    )
-                ]
+                'required' => true
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'invalid_message' => 'Les mots de passe doivent correspondre.',
                 'required' => true,
                 'first_options'  => [
-                    'label' => 'Nouveau mot de passe',
-                    'constraints' => [
-                        new Length(
-                            min: 6,
-                            max: 40,
-                            minMessage: "Votre mot de passe doit contenir au moins {{ limit }} caractères.",
-                            maxMessage: "Votre mot de passe ne peut pas contenir plus de {{ limit }} caractères."
-                        ),
-                        new NotBlank(
-                            message: "Veuillez entrer un mot de passe."
-                        )
-                    ]
+                    'label' => 'Mot de passe'
                 ],
                 'second_options' => [
-                    'label' => 'Confirmer le nouveau mot de passe'
+                    'label' => 'Confirmer le mot de passe'
                 ]
             ])
         ;

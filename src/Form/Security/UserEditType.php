@@ -8,7 +8,6 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Length;
 
 class UserEditType extends AbstractType
 {
@@ -17,43 +16,19 @@ class UserEditType extends AbstractType
         $builder
             ->add('username', TextType::class, [
                 'label' => "Votre pseudo",
-                'required' => true,
-                'constraints' => [
-                    new Length(
-                        max: 20,
-                        maxMessage: "Votre pseudo peut contenir plus de {{ limit }} caractères."
-                    )
-                ]
+                'required' => true
             ])
             ->add('email', EmailType::class, [
                 'label' => "Votre email",
-                'required' => true,
-                'constraints' => [
-                    new Length(
-                        max: 255,
-                        maxMessage: "Votre email ne peut pas contenir plus de {{ limit }} caractères."
-                    )
-                ]
+                'required' => true
             ])
             ->add('firstname', TextType::class, [
                 'label' => "Votre prénom",
-                'required' => true,
-                'constraints' => [
-                    new Length(
-                        max: 50,
-                        maxMessage: "Votre prénom ne peut pas contenir plus de {{ limit }} caractères."
-                    )
-                ]
+                'required' => true
             ])
             ->add('lastname', TextType::class, [
                 'label' => "Votre nom",
-                'required' => true,
-                'constraints' => [
-                    new Length(
-                        max: 50,
-                        maxMessage: "Votre nom ne peut pas contenir plus de {{ limit }} caractères."
-                    )
-                ]
+                'required' => true
             ])
         ;
     }
