@@ -2,17 +2,15 @@
 
 namespace App\Form\Security;
 
+use App\DTO\Security\UserEditDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
-class RegisterType extends AbstractType
+class UserEditType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -37,26 +35,24 @@ class RegisterType extends AbstractType
                     )
                 ]
             ])
-            ->add('password', RepeatedType::class, [
-                'type' => PasswordType::class,
-                'invalid_message' => 'Les mots de passe doivent correspondre.',
+            ->add('firstname', TextType::class, [
+                'label' => "Votre prénom",
                 'required' => true,
-                'first_options'  => [
-                    'label' => 'Nouveau mot de passe',
-                    'constraints' => [
-                        new Length(
-                            min: 6,
-                            max: 40,
-                            minMessage: "Votre mot de passe doit contenir au moins {{ limit }} caractères.",
-                            maxMessage: "Votre mot de passe ne peut pas contenir plus de {{ limit }} caractères."
-                        ),
-                        new NotBlank(
-                            message: "Veuillez entrer un mot de passe."
-                        )
-                    ]
-                ],
-                'second_options' => [
-                    'label' => 'Confirmer le nouveau mot de passe'
+                'constraints' => [
+                    new Length(
+                        max: 50,
+                        maxMessage: "Votre prénom ne peut pas contenir plus de {{ limit }} caractères."
+                    )
+                ]
+            ])
+            ->add('lastname', TextType::class, [
+                'label' => "Votre nom",
+                'required' => true,
+                'constraints' => [
+                    new Length(
+                        max: 50,
+                        maxMessage: "Votre nom ne peut pas contenir plus de {{ limit }} caractères."
+                    )
                 ]
             ])
         ;
@@ -66,6 +62,7 @@ class RegisterType extends AbstractType
     {
         $resolver->setDefaults([
             'csrf_protection' => false,
+            'data_class' => UserEditDTO::class
         ]);
     }
 }

@@ -19,6 +19,7 @@ export default defineConfig({
                 security: "./assets/styles/js/security/security.js",
                 logout: "./assets/styles/js/security/logout.js",
                 check_token: "./assets/styles/js/security/check_token.js",
+                user: "./assets/styles/js/security/user.js",
             },
         },
     },

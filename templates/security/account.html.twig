@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Compte{% endblock %}
+
+{% block body %}
+    <div class="container pt-10">
+        <h1>Modifier mes infos</h1>
+        {{ form_start(userForm, { "attr": { "id": "user-edit", "autocomplete": "on" } }) }}
+        {{ form_row(userForm.username) }}
+        {{ form_row(userForm.email) }}
+        {{ form_row(userForm.firstname) }}
+        {{ form_row(userForm.lastname) }}
+        <button type="submit" class="btn btn-primary">Modifier</button>
+        {{ form_end(userForm) }}
+        <div id="result" class="mt-3"></div>
+        <hr>
+        <h1>Modifier mon mot de passe</h1>
+        {{ form_start(resetPasswordForm, { "attr": { "id": "reset-password", "autocomplete": "on" } }) }}
+        {{ form_row(resetPasswordForm.password) }}
+        <button type="submit" class="btn btn-primary">Modifier</button>
+        {{ form_end(resetPasswordForm) }}
+        <div id="result" class="mt-3"></div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ vite_entry_script_tags('user') }}
+{% endblock %}
