@@ -4,16 +4,20 @@ export function handleForm(formId, apiUrl, fields, extras = {}) {
 
         const data = {};
         fields.forEach(field => {
-            // On cherche l'élément dont l'ID finit par le nom du champ
-            // Exemple : #reset_password_password_first
             const $el = $(formId).find(`[id$='_${field}']`);
 
+            // Pour RepeatedPassword
             if ($el.length > 0) {
-                // On garde une clé propre pour l'API (ex: 'password' au lieu de 'password_first')
-                const cleanKey = field.split('_')[0];
-                data[cleanKey] = $el.val();
-            } else {
-                console.warn(`Champ non trouvé avec l'ID finissant par : _${field}`);
+                if (field.includes('_')) {
+                    const parts = field.split('_');
+                    const mainKey = parts[0];
+                    const subKey = parts[1];
+
+                    if (!data[mainKey]) data[mainKey] = {};
+                    data[mainKey][subKey] = $el.val();
+                } else {
+                    data[field] = $el.val();
+                }
             }
         });
 
@@ -31,11 +35,16 @@ export function handleForm(formId, apiUrl, fields, extras = {}) {
                 if (apiUrl.endsWith('/login_check')) {
                     window.location.href = '/';
                 } else {
-                    $(`${formId} ~ #result`).text('Opération réussie.');
+                    $(`${formId} ~ #result`).removeClass('text-danger').addClass('text-success').text('Opération réussie.');
                 }
             },
-            error: function (t) {
-                $(`${formId} ~ #result`).text('Une erreur est survenue.');
+            error: function (xhr) {
+                const response = xhr.responseJSON;
+                if (response && response.errors) {
+                    $(`${formId} ~ #result`).removeClass('text-success').addClass('text-danger').text(response.errors[0]);
+                } else {
+                    $(`${formId} ~ #result`).removeClass('text-success').addClass('text-danger').text('Une erreur est survenue.');
+                }
             }
         });
     });

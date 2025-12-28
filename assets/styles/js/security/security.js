@@ -17,7 +17,7 @@ $(document).ready(function(){
     handleForm('#login-form', apiUrl+'/login_check', ['email', 'password'], {
         url: baseUrl
     });
-    handleForm('#register-form', apiUrl+'/register', ['username', 'email', 'password_first'], {
+    handleForm('#register-form', apiUrl+'/register', ['username', 'email', 'password_first', 'password_second'], {
         url: baseUrl
     });
     handleForm('#forgot-password-form', apiUrl+'/forgot_password', ['email'], { url: resetUrl });
