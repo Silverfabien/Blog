@@ -14,7 +14,9 @@ $(document).ready(function(){
 
     const resetToken = getResetTokenFormUrl();
 
-    handleForm('#login-form', apiUrl+'/login_check', ['email', 'password']);
+    handleForm('#login-form', apiUrl+'/login_check', ['email', 'password'], {
+        url: baseUrl
+    });
     handleForm('#register-form', apiUrl+'/register', ['username', 'email', 'password_first'], {
         url: baseUrl
     });

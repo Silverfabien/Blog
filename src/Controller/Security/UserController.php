@@ -3,7 +3,6 @@
 namespace App\Controller\Security;
 
 use App\DTO\Security\UserEditDTO;
-use App\Entity\User\User;
 use App\Form\Security\ResetPasswordType;
 use App\Form\Security\UserEditType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
