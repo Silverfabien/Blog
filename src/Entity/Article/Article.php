@@ -4,11 +4,15 @@ namespace App\Entity\Article;
 
 use App\Entity\User\User;
 use App\Repository\Article\ArticleRepository;
+use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
+use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
+#[Vich\Uploadable]
 class Article
 {
     #[ORM\Id]
@@ -51,9 +55,15 @@ class Article
     #[ORM\ManyToOne(inversedBy: 'articleAuthorEdit')]
     private ?User $authorEdit = null;
 
+    #[Vich\UploadableField(mapping: 'article_pictures', fileNameProperty: 'pictureName')]
+    private ?File $pictureFile = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $pictureName = null;
+
     public function __construct()
     {
-        $this->createdAt = new \DateTimeImmutable();
+        $this->createdAt = new DateTimeImmutable();
         $this->publish = false;
         $this->see = 0;
     }
@@ -111,24 +121,24 @@ class Article
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    public function setCreatedAt(DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
+    public function setUpdatedAt(?DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
 
@@ -147,12 +157,12 @@ class Article
         return $this;
     }
 
-    public function getPublishAt(): ?\DateTimeImmutable
+    public function getPublishAt(): ?DateTimeImmutable
     {
         return $this->publishAt;
     }
 
-    public function setPublishAt(?\DateTimeImmutable $publishAt): static
+    public function setPublishAt(?DateTimeImmutable $publishAt): static
     {
         $this->publishAt = $publishAt;
 
@@ -191,6 +201,34 @@ class Article
     public function setAuthorEdit(?User $authorEdit): static
     {
         $this->authorEdit = $authorEdit;
+
+        return $this;
+    }
+
+    public function getPictureFile(): ?File
+    {
+        return $this->pictureFile;
+    }
+
+    public function setPictureFile(?File $pictureFile): static
+    {
+        $this->pictureFile = $pictureFile;
+
+        if (null !== $pictureFile) {
+            $this->updatedAt = new DateTimeImmutable();
+        }
+
+        return $this;
+    }
+
+    public function getPictureName(): ?string
+    {
+        return $this->pictureName;
+    }
+
+    public function setPictureName(?string $pictureName): static
+    {
+        $this->pictureName = $pictureName;
 
         return $this;
     }

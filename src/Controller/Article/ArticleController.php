@@ -6,7 +6,6 @@ use App\ControllerHandler\Article\ArticleControllerHandler;
 use App\Entity\Article\Article;
 use App\Form\Article\ArticleType;
 use App\Repository\Article\ArticleRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

@@ -32,7 +32,8 @@
         "symfony/framework-bundle": "7.4.*",
         "symfony/runtime": "7.4.*",
         "symfony/validator": "7.4.*",
-        "symfony/yaml": "7.4.*"
+        "symfony/yaml": "7.4.*",
+        "vich/uploader-bundle": "^2.9"
     },
     "require-dev": {
         "symfony/maker-bundle": "^1.65",
