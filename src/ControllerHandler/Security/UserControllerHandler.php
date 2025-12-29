@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ControllerHandler;
+namespace App\ControllerHandler\Security;
 
 use App\Entity\User\User;
 use Symfony\Component\Form\FormInterface;
