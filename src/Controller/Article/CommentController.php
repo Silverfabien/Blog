@@ -3,6 +3,7 @@
 namespace App\Controller\Article;
 
 use App\ControllerHandler\Article\CommentControllerHandler;
+use App\Entity\Article\Article;
 use App\Entity\Article\Comment;
 use App\Form\Article\CommentType;
 use App\Repository\User\UserRepository;
@@ -21,6 +22,40 @@ final class CommentController extends AbstractController
         private readonly UserRepository $userRepository,
         private readonly CommentControllerHandler $commentControllerHandler
     ) {}
+
+    #[Route('/{slug}/new', name: 'new')]
+    public function new(
+        Request $request,
+        SessionInterface $session,
+        Article $article
+    ): Response
+    {
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment)->handleRequest($request);
+
+        if ($this->commentControllerHandler->new($form, $comment, $article, $session)) {
+            $userId = $session->get('id');
+            $user = $this->userRepository->findOneBy(['id' => $userId]);
+
+            if ($request->getPreferredFormat() === 'turbo_stream') {
+                return $this->render('article/comment/new.turbo_stream.twig', [
+                    'comment' => $comment,
+                    'user' => $user
+                ], new Response('', Response::HTTP_CREATED, ['Content-Type' => 'text/vnd.turbo-stream.html']));
+            }
+
+            return $this->redirectToRoute(
+                'article_show',
+                ['slug' => $comment->getArticle()->getSlug()]
+            );
+        }
+
+        return $this->render('article/comment/_new_form.html.twig', [
+            'form' => $form,
+            'article' => $article
+        ]);
+
+    }
 
     #[Route('/{id}/edit', name: 'edit')]
     public function edit(

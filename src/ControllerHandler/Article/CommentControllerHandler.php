@@ -2,6 +2,7 @@
 
 namespace App\ControllerHandler\Article;
 
+use App\Entity\Article\Article;
 use App\Entity\Article\Comment;
 use App\Repository\Article\ArticleRepository;
 use App\Repository\Article\CommentRepository;
@@ -20,6 +21,7 @@ readonly class CommentControllerHandler
     public function new(
         FormInterface $form,
         Comment $comment,
+        Article $article,
         SessionInterface $session
     ): bool
     {
@@ -27,6 +29,7 @@ readonly class CommentControllerHandler
             $user = $this->userRepository->findOneBy(['id' => $session->get('id')]);
 
             $comment->setAuthor($user);
+            $comment->setArticle($article);
 
             $this->commentRepository->create($comment);
 

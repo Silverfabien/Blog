@@ -4,7 +4,9 @@ namespace App\Controller\Article;
 
 use App\ControllerHandler\Article\ArticleControllerHandler;
 use App\Entity\Article\Article;
+use App\Entity\Article\Comment;
 use App\Form\Article\ArticleType;
+use App\Form\Article\CommentType;
 use App\Repository\Article\ArticleRepository;
 use App\Repository\User\UserRepository;
 use Silversat\PermissionBundle\Security\PermissionChecker;
@@ -75,11 +77,15 @@ final class ArticleController extends AbstractController
     {
         if ($session->has('id')) {
             $user = $this->userRepository->findOneBy(['id' => $session->get('id')]);
+
+            $comment = new Comment();
+            $form = $this->createForm(CommentType::class, $comment);
         }
 
         return $this->render('article/show.html.twig', [
             'article' => $article,
-            'user' => $user ?? null
+            'user' => $user ?? null,
+            'form' => isset($form) ? $form->createView() : null
         ]);
     }
 
