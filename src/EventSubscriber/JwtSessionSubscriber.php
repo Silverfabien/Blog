@@ -30,7 +30,7 @@ readonly class JwtSessionSubscriber implements EventSubscriberInterface
                 $session->set('username', $payload['username']);
                 $session->set('email', $payload['email']);
 
-                $role = $payload['role'] ?? null;
+                $role = $payload['roles'] ?? null;
 
                 if (is_array($role)) {
                     $role = $role[$this->siteName] ?? $role[strtolower($this->siteName)] ?? null;
@@ -39,6 +39,15 @@ readonly class JwtSessionSubscriber implements EventSubscriberInterface
                 }
 
                 $session->set('role', $role);
+
+                $rolename = $payload['rolenames'] ?? null;
+                if (is_array($rolename)) {
+                    $rolename = $rolename[$this->siteName] ?? $rolename[strtolower($this->siteName)] ?? null;
+                } elseif (!is_string($rolename) || $rolename === '') {
+                    $rolename = 'Utilisateur';
+                }
+
+                $session->set('rolename', $rolename);
             }
         }
     }

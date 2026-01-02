@@ -1,0 +1,13 @@
+<turbo-stream action="prepend" target="comments-list">
+    <template>
+        {% include 'article/comment/_comment.html.twig' with {'comment': comment, 'user': user} %}
+    </template>
+</turbo-stream>
+
+<turbo-stream action="replace" target="comment-form-container">
+    <template>
+        <div id="comment-form-container">
+            <p class="alert alert-success">Commentaire ajouté.</p>
+        </div>
+    </template>
+</turbo-stream>

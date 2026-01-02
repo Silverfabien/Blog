@@ -2,7 +2,11 @@
 
 namespace App\Entity\User;
 
+use App\Entity\Article\Article;
+use App\Entity\Article\Comment;
 use App\Repository\User\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -25,9 +29,30 @@ class User
     #[ORM\Column(length: 255)]
     private ?string $role = null;
 
+    /**
+     * @var Collection<int, Article>
+     */
+    #[ORM\OneToMany(targetEntity: Article::class, mappedBy: 'author')]
+    private Collection $articleAuthor;
+
+    /**
+     * @var Collection<int, Article>
+     */
+    #[ORM\OneToMany(targetEntity: Article::class, mappedBy: 'authorEdit')]
+    private Collection $articleAuthorEdit;
+
+    /**
+     * @var Collection<int, Comment>
+     */
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'author')]
+    private Collection $comments;
+
     public function __construct()
     {
         $this->role = 'ROLE_USER';
+        $this->articleAuthor = new ArrayCollection();
+        $this->articleAuthorEdit = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -79,6 +104,96 @@ class User
     public function setRole(string $role): static
     {
         $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Article>
+     */
+    public function getArticleAuthor(): Collection
+    {
+        return $this->articleAuthor;
+    }
+
+    public function addArticleAuthor(Article $articleAuthor): static
+    {
+        if (!$this->articleAuthor->contains($articleAuthor)) {
+            $this->articleAuthor->add($articleAuthor);
+            $articleAuthor->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticleAuthor(Article $articleAuthor): static
+    {
+        if ($this->articleAuthor->removeElement($articleAuthor)) {
+            // set the owning side to null (unless already changed)
+            if ($articleAuthor->getAuthor() === $this) {
+                $articleAuthor->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Article>
+     */
+    public function getArticleAuthorEdit(): Collection
+    {
+        return $this->articleAuthorEdit;
+    }
+
+    public function addArticleAuthorEdit(Article $articleAuthorEdit): static
+    {
+        if (!$this->articleAuthorEdit->contains($articleAuthorEdit)) {
+            $this->articleAuthorEdit->add($articleAuthorEdit);
+            $articleAuthorEdit->setAuthorEdit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticleAuthorEdit(Article $articleAuthorEdit): static
+    {
+        if ($this->articleAuthorEdit->removeElement($articleAuthorEdit)) {
+            // set the owning side to null (unless already changed)
+            if ($articleAuthorEdit->getAuthorEdit() === $this) {
+                $articleAuthorEdit->setAuthorEdit(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): static
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): static
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getAuthor() === $this) {
+                $comment->setAuthor(null);
+            }
+        }
 
         return $this;
     }

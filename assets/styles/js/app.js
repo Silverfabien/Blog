@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import '@hotwired/turbo';
 
 import '../css/app.scss';
 
