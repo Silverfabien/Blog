@@ -3,6 +3,7 @@
 namespace App\Entity\User;
 
 use App\Entity\Article\Article;
+use App\Entity\Article\Comment;
 use App\Repository\User\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -40,11 +41,18 @@ class User
     #[ORM\OneToMany(targetEntity: Article::class, mappedBy: 'authorEdit')]
     private Collection $articleAuthorEdit;
 
+    /**
+     * @var Collection<int, Comment>
+     */
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'author')]
+    private Collection $comments;
+
     public function __construct()
     {
         $this->role = 'ROLE_USER';
         $this->articleAuthor = new ArrayCollection();
         $this->articleAuthorEdit = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -154,6 +162,36 @@ class User
             // set the owning side to null (unless already changed)
             if ($articleAuthorEdit->getAuthorEdit() === $this) {
                 $articleAuthorEdit->setAuthorEdit(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): static
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): static
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getAuthor() === $this) {
+                $comment->setAuthor(null);
             }
         }
 

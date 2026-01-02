@@ -50,6 +50,24 @@
         </tbody>
     </table>
 
+    <hr>
+
+    <h2>Comments</h2>
+
+    {% for comment in article.comments %}
+        <turbo-frame id="comment-frame-{{ comment.id }}">
+            <div class="comment-item">
+                <p>{{ comment.content }}</p>
+                <small>Par {{ comment.author.username}} le {{ comment.createdAt|date('Y-m-d H:i:s') }}</small>
+
+                {% if user == comment.author or user.role == "ROLE_ADMIN" %}
+                    <a href="{{ path('comment_edit', {id: comment.id}) }}">Modifier</a>
+                    {{ include('article/comment/_delete_form.html.twig') }}
+                {% endif %}
+            </div>
+        </turbo-frame>
+    {% endfor %}
+
     <a href="{{ path('article_index') }}">back to list</a>
 
     <a href="{{ path('article_edit', {'slug': article.slug}) }}">edit</a>

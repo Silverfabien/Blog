@@ -1,0 +1,7 @@
+<turbo-frame id="comment-frame-{{ comment.id }}">
+    {{ form_start(form, {action: path('comment_edit', {id: comment.id})}) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-primary">Enregistrer</button>
+        <a href="{{ path('article_show', {slug: comment.article.slug}) }}">Annuler</a>
+    {{ form_end(form) }}
+</turbo-frame>

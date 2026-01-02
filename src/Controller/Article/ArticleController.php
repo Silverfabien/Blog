@@ -71,10 +71,15 @@ final class ArticleController extends AbstractController
     }
 
     #[Route('/{slug}', name: 'show')]
-    public function show(Article $article): Response
+    public function show(Article $article, SessionInterface $session): Response
     {
+        if ($session->has('id')) {
+            $user = $this->userRepository->findOneBy(['id' => $session->get('id')]);
+        }
+
         return $this->render('article/show.html.twig', [
             'article' => $article,
+            'user' => $user ?? null
         ]);
     }
 
@@ -94,7 +99,6 @@ final class ArticleController extends AbstractController
 
     private function isAuthorized(Request $request, string $attempt): bool
     {
-
         $jwt = $request->cookies->get('jwt_token');
 
         if (!$jwt) {

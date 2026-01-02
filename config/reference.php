@@ -1469,6 +1469,20 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         db_driver?: scalar|null, // Default: null
  *     }>,
  * }
+ * @psalm-type StimulusConfig = array{
+ *     controller_paths?: list<scalar|null>,
+ *     controllers_json?: scalar|null, // Default: "%kernel.project_dir%/assets/controllers.json"
+ * }
+ * @psalm-type TurboConfig = array{
+ *     broadcast?: bool|array{
+ *         enabled?: bool, // Default: true
+ *         entity_template_prefixes?: list<scalar|null>,
+ *         doctrine_orm?: bool|array{ // Enable the Doctrine ORM integration
+ *             enabled?: bool, // Default: true
+ *         },
+ *     },
+ *     default_transport?: scalar|null, // Default: "default"
+ * }
  * @psalm-type ConfigType = array{
  *     imports?: ImportsConfig,
  *     parameters?: ParametersConfig,
@@ -1483,6 +1497,8 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *     pentatrion_vite?: PentatrionViteConfig,
  *     stof_doctrine_extensions?: StofDoctrineExtensionsConfig,
  *     vich_uploader?: VichUploaderConfig,
+ *     stimulus?: StimulusConfig,
+ *     turbo?: TurboConfig,
  *     "when@dev"?: array{
  *         imports?: ImportsConfig,
  *         parameters?: ParametersConfig,
@@ -1499,6 +1515,8 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         pentatrion_vite?: PentatrionViteConfig,
  *         stof_doctrine_extensions?: StofDoctrineExtensionsConfig,
  *         vich_uploader?: VichUploaderConfig,
+ *         stimulus?: StimulusConfig,
+ *         turbo?: TurboConfig,
  *     },
  *     "when@prod"?: array{
  *         imports?: ImportsConfig,
@@ -1514,6 +1532,8 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         pentatrion_vite?: PentatrionViteConfig,
  *         stof_doctrine_extensions?: StofDoctrineExtensionsConfig,
  *         vich_uploader?: VichUploaderConfig,
+ *         stimulus?: StimulusConfig,
+ *         turbo?: TurboConfig,
  *     },
  *     "when@test"?: array{
  *         imports?: ImportsConfig,
@@ -1530,6 +1550,8 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         pentatrion_vite?: PentatrionViteConfig,
  *         stof_doctrine_extensions?: StofDoctrineExtensionsConfig,
  *         vich_uploader?: VichUploaderConfig,
+ *         stimulus?: StimulusConfig,
+ *         turbo?: TurboConfig,
  *     },
  *     ...<string, ExtensionType|array{ // extra keys must follow the when@%env% pattern or match an extension alias
  *         imports?: ImportsConfig,
