@@ -1,5 +1,6 @@
-//@import "bootstrap";
+@import "tailwindcss";
+@plugin "daisyui";
 
-body {
+html {
     background-color: lightgray;
 }
