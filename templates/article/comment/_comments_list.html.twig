@@ -9,7 +9,6 @@
         <div class="flex justify-center mt-10">
             <a href="{{ path('article_show', {'slug': article.slug, 'page': page + 1}) }}"
                data-turbo-frame="comments-page-{{ page + 1 }}"
-                {# On masque la div parente pour supprimer tout espacement résiduel #}
                onclick="this.closest('div').style.display='none'"
                class="btn btn-outline btn-primary btn-sm px-8 rounded-full">
                 Charger plus de commentaires
