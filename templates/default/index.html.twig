@@ -1,14 +1,137 @@
 {% extends 'base.html.twig' %}
+{% form_theme form _self %}
 
-{% block title %}Hello DefaultController!{% endblock %}
+{% block form_row %}
+    {{ form_widget(form) }}
+{% endblock %}
+
 
 {% block body %}
-    {% if session.has('username') %}
-        <p>Bienvenu {{ session.get('username') }}</p>
-        Tu as le role {{ session.get('rolename') }}
-    {% else %}
-        <p>Tu n'es pas connecté</p>
-    {% endif %}
+    <main class="bg-base-200">
+        <div class="hero min-h-[60vh] bg-linear-to-br from-primary to-secondary text-primary-content z-0">
+            <div class="hero-overlay bg-opacity-20"></div>
+            <div class="hero-content text-center text-neutral-content pt-10">
+                <div class="max-w-2xl">
+                    <h1 class="mb-8 text-5xl md:text-10xl font-bold">Article généré par IA</h1>
+                    <p class="mb-8 text-xl font-light opacity-90">Explorez les dernières avancées technologiques à travers le regard de l'IA.</p>
+                    <div class="flex gap-4 justify-center">
+                        <a href="{{ path('article_index') }}" class="btn btn-primary btn-lg px-8">Lire les articles</a>
+                        <a href="#contact" class="btn btn-outline btn-lg text-white px-8">Nous contacter</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section id="articles" class="py-20 bg-base-200 z-0">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col items-center mb-12">
+                    <h2 class="text-4xl font-bold mb-2">Dernières publications</h2>
+                    <div class="h-1 w-20 bg-primary rounded-full"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {% for article in articles %}
+                        <div class="card bg-base-100 shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-base-300">
+                            <figure class="relative h-56 bg-base-300">
+                                {% if article.pictureName %}
+                                    <img src="{{ asset('uploads/pictures/articles/' ~ article.pictureName) }}" alt="{{ article.title }}" class="object-cover h-full w-full" />
+                                {% else %}
+                                    <img src="{{ asset('uploads/pictures/articles/default/noImageAvailable.png') }}" alt="Image par défaut }}" class="object-cover h-full w-full" />
+                                {% endif %}
+                                <div class="absolute top-4 right-4">
+                                    <div class="badge badge-primary font-semibold shadow-md">{{ article.publishAt|date('d M') }}</div>
+                                </div>
+                            </figure>
+                            <div class="card-body">
+                                <h2 class="card-title text-2xl group-hover:text-primary transition-colors">
+                                    {{ article.title }}
+                                </h2>
+                                <p class="line-clamp-3 text-base-content/70 my-2 italic">"{{ article.description }}"</p>
+
+                                <div class="card-actions justify-between items-center mt-4 pt-4 border-t border-base-200">
+                                    <div class="flex items-center gap-2 text-xs font-medium opacity-50">
+                                        <i class="fas fa-eye"></i>
+                                        {{ article.see }} lectures
+                                    </div>
+                                    <a href="{{ path('article_show', {slug: article.slug}) }}" class="btn btn-ghost btn-sm text-primary group">
+                                        Lire l'article
+                                        <i class="fas fa-arrow-right transform group-hover:translate-x-1 transition-transform"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="col-span-full alert alert-info shadow-inner">
+                            <i class="fas fa-info-circle text-2xl"></i>
+                            <span>Aucun article n'a encore été généré par l'IA. Revenez bientôt !</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="py-24 bg-linear-to-br from-primary to-secondary relative overflow-hidden z-0">
+            <div class="max-w-4xl mx-auto px-4 relative z-10">
+                <div class="text-center mb-12 text-primary-content">
+                    <h2 class="text-4xl font-bold mb-4">Un projet ? Une question ?</h2>
+                    <p class="text-xl opacity-90">Notre IA ne mord pas, et nous non plus !</p>
+                </div>
+
+                <div class="card lg:card-side bg-base-100 shadow-2xl overflow-hidden border-none">
+                    <div class="lg:w-1/3 bg-base-200 p-10 flex flex-col justify-center border-r border-base-300">
+                        <h3 class="text-2xl font-bold mb-6 text-primary">Contactez-nous</h3>
+                        <p class="text-sm opacity-70 mb-8">N'hésitez pas à nous faire part de vos retours sur les articles générés par l'intelligence artificielle.</p>
+
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-2 group cursor-pointer">
+                                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <span class="text-sm font-semibold">hollebeque.fabien@hotmail.com</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body lg:w-2/3 p-10 bg-base-100">
+                        {{ form_start(form, {'attr': {'class': 'space-y-4'}}) }}
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="flex flex-col gap-2">
+                                <label class="font-bold opacity-70 text-sm">Votre Nom</label>
+                                {{ form_widget(form.name, {'attr': {'class': 'input input-bordered focus:input-primary bg-base-100 w-full'}}) }}
+                                {{ form_errors(form.name) }}
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <label class="font-bold opacity-70 text-sm">Votre Email</label>
+                                {{ form_widget(form.email, {'attr': {'class': 'input input-bordered focus:input-primary bg-base-100 w-full'}}) }}
+                                {{ form_errors(form.email) }}
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="font-bold opacity-70 text-sm">Catégorie</label>
+                            {{ form_widget(form.category, {'attr': {'class': 'select select-bordered focus:select-primary bg-base-100 w-full text-base-content'}}) }}
+                            {{ form_errors(form.category) }}
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="font-bold opacity-70 text-sm">Sujet</label>
+                            {{ form_widget(form.subject, {'attr': {'class': 'input input-bordered focus:input-primary bg-base-100 w-full'}}) }}
+                            {{ form_errors(form.subject) }}
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="font-bold opacity-70 text-sm">Votre Message</label>
+                            {{ form_widget(form.content, {'attr': {'class': 'textarea textarea-bordered h-32 focus:textarea-primary bg-base-100 w-full'}}) }}
+                            {{ form_errors(form.content) }}
+                        </div>
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-primary w-full text-lg shadow-lg">
+                                Envoyer le message
+                            </button>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 {% endblock %}
 
 {% block javascripts %}

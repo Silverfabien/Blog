@@ -1,11 +1,36 @@
-<turbo-frame id="comment-frame-{{ comment.id }}">
-    <div class="comment-item">
-        <p>{{ comment.content }}</p>
-        <small>Par {{ comment.author.username}} le {{ comment.createdAt|date('Y-m-d H:i:s') }}</small>
+<turbo-frame id="comment-frame-{{ comment.id }}" class="block w-full">
+    <div class="flex gap-4 group">
+        {# Avatar avec initiale stylisée #}
+        <div class="avatar placeholder flex-shrink-0">
+            <div class="bg-gradient-to-br from-primary to-secondary text-primary-content rounded-2xl w-12 h-12 shadow-md group-hover:scale-105 transition-transform">
+                <span class="text-lg font-bold">{{ comment.author.username|first|upper }}</span>
+            </div>
+        </div>
 
-        {% if user == comment.author or user.role == "ROLE_ADMIN" %}
-            <a href="{{ path('comment_edit', {id: comment.id}) }}">Modifier</a>
-            {{ include('article/comment/_delete_form.html.twig') }}
-        {% endif %}
+        <div class="flex-1">
+            {# Bulle de commentaire #}
+            <div class="bg-base-100 border border-base-300 rounded-2xl rounded-tl-none p-4 shadow-sm group-hover:shadow-md transition-shadow relative">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="font-bold text-primary">{{ comment.author.username }}</span>
+                    <div class="flex items-center gap-2">
+                        <span class="text-[10px] opacity-40 uppercase font-bold tracking-tighter">
+                            {{ comment.createdAt|date('d/m/Y H:i') }}
+                        </span>
+
+                        {% if app.user and (app.user.id == comment.author.id or is_granted('ROLE_ADMIN')) %}
+                            <div class="flex items-center gap-2 ml-2 border-l border-base-300 pl-2">
+                                <a href="{{ path('comment_edit', {'id': comment.id}) }}" class="text-primary hover:text-primary-focus transition-colors">
+                                    <i class="fas fa-pen-nib text-xs"></i>
+                                </a>
+                                {{ include('article/comment/_delete_form.html.twig') }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <p class="text-base-content/80 text-sm leading-relaxed">
+                    {{ comment.content }}
+                </p>
+            </div>
+        </div>
     </div>
 </turbo-frame>

@@ -8,6 +8,7 @@ use App\Entity\Article\Comment;
 use App\Form\Article\ArticleType;
 use App\Form\Article\CommentType;
 use App\Repository\Article\ArticleRepository;
+use App\Repository\Article\CommentRepository;
 use App\Repository\User\UserRepository;
 use Silversat\PermissionBundle\Security\PermissionChecker;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,7 +23,9 @@ final class ArticleController extends AbstractController
     public function __construct(
         private readonly ArticleControllerHandler $articleControllerHandler,
         private readonly PermissionChecker $permissionChecker,
-        private readonly UserRepository $userRepository
+        private readonly UserRepository $userRepository,
+        private readonly ArticleRepository $articleRepository,
+        private readonly CommentRepository $commentRepository
     ) {}
 
     #[Route(name: 'index')]
@@ -73,7 +76,11 @@ final class ArticleController extends AbstractController
     }
 
     #[Route('/{slug}', name: 'show')]
-    public function show(Article $article, SessionInterface $session): Response
+    public function show(
+        Article $article,
+        SessionInterface $session,
+        Request $request
+    ): Response
     {
         if ($session->has('id')) {
             $user = $this->userRepository->findOneBy(['id' => $session->get('id')]);
@@ -82,10 +89,31 @@ final class ArticleController extends AbstractController
             $form = $this->createForm(CommentType::class, $comment);
         }
 
+        $suggestedArticles = $this->articleRepository->findSuggested(3, $article->getId());
+
+        $page = $request->query->getInt('page', 1);
+        $limit = 10;
+        $comments = $this->commentRepository->findPaginatedByArticle($article, $page, $limit);
+        $totalComments = $this->commentRepository->count(['article' => $article]);
+        $hasNextPage = ($page * $limit) < $totalComments;
+
+        if ($request->headers->get('Turbo-Frame')) {
+            return $this->render('article/comment/_comments_list.html.twig', [
+                'comments' => $comments,
+                'hasNextPage' => $hasNextPage,
+                'page' => $page,
+                'article' => $article,
+            ]);
+        }
+
         return $this->render('article/show.html.twig', [
             'article' => $article,
             'user' => $user ?? null,
-            'form' => isset($form) ? $form->createView() : null
+            'form' => isset($form) ? $form->createView() : null,
+            'suggestedArticles' => $suggestedArticles,
+            'comments' => $comments,
+            'hasNextPage' => $hasNextPage,
+            'page' => $page
         ]);
     }
 

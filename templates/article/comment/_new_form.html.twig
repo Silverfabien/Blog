@@ -1,4 +1,20 @@
-{{ form_start(form, {action: path('comment_new', {slug: article.slug})}) }}
-    {{ form_widget(form) }}
-    <button class="btn btn-primary">Envoyer</button>
-{{ form_end(form) }}
+<turbo-frame id="new_comment">
+    {{ form_start(form, {
+        'action': path('comment_new', {'slug': article.slug}),
+        'attr': {'data-turbo-frame': '_top'}
+    }) }}
+    <div class="form-control mb-4">
+        {{ form_widget(form.content, {
+            'attr': {
+                'class': 'textarea textarea-bordered focus:textarea-primary bg-base-100 w-full h-24',
+                'placeholder': 'Votre commentaire...'
+            }
+        }) }}
+    </div>
+    <div class="flex justify-end">
+        <button type="submit" class="btn btn-primary shadow-lg">
+            Publier le commentaire
+        </button>
+    </div>
+    {{ form_end(form) }}
+</turbo-frame>

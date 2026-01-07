@@ -36,16 +36,16 @@ class Article
     private ?string $description = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private ?DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updatedAt = null;
+    private ?DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column]
     private ?bool $publish = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $publishAt = null;
+    private ?DateTimeImmutable $publishAt = null;
 
     #[ORM\Column]
     private ?int $see = null;

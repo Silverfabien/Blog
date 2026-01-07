@@ -1,0 +1,50 @@
+<nav id="navbar" class="nav fixed top-0 w-full z-50 transition-all duration-500 py-5 bg-transparent">
+    <div class="container mx-auto flex items-center justify-between px-6 lg:px-12">
+        <div class="nav-title">
+            <a href="{{ path('default') }}" class="text-2xl font-bold text-white">
+                Blog<span class="text-primary">IA</span>
+            </a>
+        </div>
+
+        <div class="nav-list hidden lg:flex items-center gap-6">
+            <ul class="flex items-center gap-6 text-white text-lg">
+                <li><a href="{{ path('default') }}">Accueil</a></li>
+                <li><a href="{{ path('article_index') }}">Article</a></li>
+            </ul>
+            <div class="h-6 w-px bg-white/20"></div>
+            <ul class="flex items-center gap-6 text-white text-lg">
+                {% if app.session%}
+                    <li><a href="{{ path('account') }}">Profil</a></li>
+                    <li><a href="{{ path('logout') }}">Déconnexion</a></li>
+                {% else %}
+                    <li><a href="{{ path('login') }}">Connexion</a></li>
+                    <li><a href="{{ path('login') }}">Inscription</a></li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <div class="nav-trigger lg:hidden cursor-pointer space-y-1.5" id="mobile-trigger">
+            <i class="block w-8 h-1 bg-white rounded transition-all duration-300"></i>
+            <i class="block w-8 h-1 bg-white rounded transition-all duration-300"></i>
+            <i class="block w-8 h-1 bg-white rounded transition-all duration-300"></i>
+        </div>
+    </div>
+
+    <div id="mobile-menu" class="hidden lg:hidden bg-black/95 w-full absolute top-full left-0 border-b border-white/10 shadow-2xl transition-all duration-300">
+        <ul class="flex flex-col p-6 gap-4 text-white text-xl">
+            <li><a href="{{ path('default') }}" class="block p-2">Accueil</a></li>
+            <li><a href="{{ path('article_index') }}" class="block p-2">Article</a></li>
+            {% if app.session %}
+                <li><a href="#" class="block p-2">Profil</a></li>
+                <li><a href="{{ path('logout') }}" class="block p-2">Déconnexion</a></li>
+            {% else %}
+                <li><a href="{{ path('login') }}" class="block p-2">Connexion</a></li>
+                <li><a href="{{ path('register') }}" class="block p-2">Inscription</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+{% block javascripts %}
+    {{ vite_entry_script_tags('navbar') }}
+{% endblock %}

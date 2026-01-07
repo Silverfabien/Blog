@@ -32,4 +32,17 @@ class ArticleRepository extends ServiceEntityRepository
         $this->getEntityManager()->remove($article);
         $this->getEntityManager()->flush();
     }
+
+    public function findSuggested(int $limit, int $currentArticleId): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.id != :currentId')
+            ->andWhere('a.publish = :publish')
+            ->setParameter('currentId', $currentArticleId)
+            ->setParameter('publish', true)
+            ->orderBy('a.publishAt', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 }

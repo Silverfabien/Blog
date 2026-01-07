@@ -1,0 +1,20 @@
+<turbo-frame id="comments-page-{{ page }}">
+    <div class="space-y-8 mt-8">
+        {% for comment in comments %}
+            {% include 'article/comment/_comment.html.twig' with {'comment': comment} %}
+        {% endfor %}
+    </div>
+
+    {% if hasNextPage %}
+        <div class="flex justify-center mt-10">
+            <a href="{{ path('article_show', {'slug': article.slug, 'page': page + 1}) }}"
+               data-turbo-frame="comments-page-{{ page + 1 }}"
+                {# On masque la div parente pour supprimer tout espacement résiduel #}
+               onclick="this.closest('div').style.display='none'"
+               class="btn btn-outline btn-primary btn-sm px-8 rounded-full">
+                Charger plus de commentaires
+            </a>
+        </div>
+        <turbo-frame id="comments-page-{{ page + 1 }}"></turbo-frame>
+    {% endif %}
+</turbo-frame>
