@@ -29,10 +29,30 @@ final class ArticleController extends AbstractController
     ) {}
 
     #[Route(name: 'index')]
-    public function index(ArticleRepository $articleRepository): Response
+    public function index(
+        ArticleRepository $articleRepository,
+        Request $request
+    ): Response
     {
+        $page = $request->query->getInt('page', 1);
+        $limit = 9;
+
+        $articles = $articleRepository->findPaginated($page, $limit);
+        $totalArticles = $articleRepository->count(['publish' => true]);
+        $hasNextPage = ($page * $limit) < $totalArticles;
+
+        if ($request->headers->get('Turbo-Frame')) {
+            return $this->render('article/_articles_list.html.twig', [
+                'articles' => $articles,
+                'page' => $page,
+                'hasNextPage' => $hasNextPage,
+            ]);
+        }
+
         return $this->render('article/index.html.twig', [
-            'articles' => $articleRepository->findAll(),
+            'articles' => $articles,
+            'page' => $page,
+            'hasNextPage' => $hasNextPage
         ]);
     }
 

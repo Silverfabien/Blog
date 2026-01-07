@@ -45,4 +45,16 @@ class ArticleRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findPaginated(int $page, int $limit): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.publish = :publish')
+            ->setParameter('publish', true)
+            ->orderBy('a.publishAt', 'DESC')
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 }

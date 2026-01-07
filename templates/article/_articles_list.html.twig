@@ -1,0 +1,37 @@
+<turbo-frame id="articles-page-{{ page }}">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 {{ page > 1 ? 'mt-8' : '' }}">
+        {% for article in articles %}
+            <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-base-300 group">
+                <figure class="relative h-64 bg-base-300 overflow-hidden">
+                    {% if article.pictureName %}
+                        <img src="{{ asset('uploads/pictures/articles/' ~ article.pictureName) }}" alt="{{ article.title }}" class="object-cover h-full w-full group-hover:scale-110 transition-transform duration-500" />
+                    {% else %}
+                        <div class="flex items-center justify-center w-full h-full opacity-20 bg-base-300"><i class="fas fa-image text-6xl"></i></div>
+                    {% endif %}
+                    <div class="absolute top-4 right-4">
+                        <div class="badge badge-primary font-bold shadow-lg py-3 px-4">{{ article.publishAt|date('d M Y') }}</div>
+                    </div>
+                </figure>
+                <div class="card-body">
+                    <h2 class="card-title text-2xl group-hover:text-primary transition-colors line-clamp-2">{{ article.title }}</h2>
+                    <p class="text-base-content/70 line-clamp-3 text-sm italic my-3">"{{ article.description }}"</p>
+                    <div class="card-actions justify-end mt-4 pt-4 border-t border-base-200">
+                        <a href="{{ path('article_show', {'slug': article.slug}) }}" class="btn btn-primary btn-sm rounded-full px-6">Voir l'article</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if hasNextPage %}
+        <div class="flex justify-center mt-16">
+            <a href="{{ path('article_index', {'page': page + 1}) }}"
+               data-turbo-frame="articles-page-{{ page + 1 }}"
+               onclick="this.closest('div').style.display='none'"
+               class="btn btn-outline btn-primary px-10 rounded-full shadow-lg hover:shadow-primary/20">
+                Découvrir plus d'articles
+            </a>
+        </div>
+        <turbo-frame id="articles-page-{{ page + 1 }}"></turbo-frame>
+    {% endif %}
+</turbo-frame>
