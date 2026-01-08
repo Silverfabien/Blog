@@ -15,6 +15,7 @@
     </head>
     <body>
         {% include 'layouts/_navbar.html.twig' %}
+        {{ render(controller('App\\Controller\\Security\\SecurityController::authModals')) }}
         {% block body %}{% endblock %}
         {% include 'layouts/_footer.html.twig' %}
     </body>

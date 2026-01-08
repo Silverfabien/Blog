@@ -23,35 +23,15 @@ final class SecurityController extends AbstractController
         return null;
     }
 
-    #[Route('/login', name: 'login')]
-    public function login(Request $request): Response
+    #[Route('/auth-modals', name: 'auth_modals')]
+    public function authModals(): Response
     {
-        $redirect = $this->isConnected($request);
+        $loginForm = $this->createForm(LoginType::class);
+        $registerForm = $this->createForm(RegisterType::class);
 
-        if ($redirect !== null) {
-            return $redirect;
-        }
-
-        $form = $this->createForm(LoginType::class);
-
-        return $this->render('security/login.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
-
-    #[Route('/register', name: 'register')]
-    public function register(Request $request): Response
-    {
-        $redirect = $this->isConnected($request);
-
-        if ($redirect !== null) {
-            return $redirect;
-        }
-
-        $form = $this->createForm(RegisterType::class);
-
-        return $this->render('security/register.html.twig', [
-            'form' => $form->createView(),
+        return $this->render('security/_auth_modals.html.twig', [
+            'loginForm' => $loginForm->createView(),
+            'registerForm' => $registerForm->createView(),
         ]);
     }
 
@@ -64,7 +44,7 @@ final class SecurityController extends AbstractController
             return $this->render('security/logout.html.twig');
         }
 
-        return $this->redirectToRoute('login');
+        return $this->redirectToRoute('default');
     }
 
     #[Route('/logout-session', name: 'logout_session', methods: ['POST'])]

@@ -13,12 +13,12 @@
             </ul>
             <div class="h-6 w-px bg-white/20"></div>
             <ul class="flex items-center gap-6 text-white text-lg">
-                {% if app.session%}
+                {% if app.session.get('id') %}
                     <li><a href="{{ path('account') }}">Profil</a></li>
                     <li><a href="{{ path('logout') }}">Déconnexion</a></li>
                 {% else %}
-                    <li><a href="{{ path('login') }}">Connexion</a></li>
-                    <li><a href="{{ path('login') }}">Inscription</a></li>
+                    <button onclick="login_modal.showModal()" class="text-white hover:text-primary transition-colors cursor-pointer">Connexion</button>
+                    <button onclick="register_modal.showModal()" class="text-white hover:text-primary transition-colors cursor-pointer">S'inscrire</button>
                 {% endif %}
             </ul>
         </div>
@@ -38,8 +38,8 @@
                 <li><a href="#" class="block p-2">Profil</a></li>
                 <li><a href="{{ path('logout') }}" class="block p-2">Déconnexion</a></li>
             {% else %}
-                <li><a href="{{ path('login') }}" class="block p-2">Connexion</a></li>
-                <li><a href="{{ path('register') }}" class="block p-2">Inscription</a></li>
+                <button onclick="login_modal.showModal()" class="text-white hover:text-primary transition-colors cursor-pointer">Connexion</button>
+                <button onclick="register_modal.showModal()" class="text-white hover:text-primary transition-colors cursor-pointer">S'inscrire</button>
             {% endif %}
         </ul>
     </div>
