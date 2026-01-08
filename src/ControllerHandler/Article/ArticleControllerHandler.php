@@ -24,6 +24,9 @@ readonly class ArticleControllerHandler
     {
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $this->userRepository->findOneBy(['id' => $session->get('id')]);
+            if ($article->isPublish()) {
+                $article->setPublishAt(new DateTimeImmutable());
+            }
 
             $article->setAuthor($user);
 

@@ -79,7 +79,11 @@ final class ArticleController extends AbstractController
     #[Route('/{slug}/edit', name: 'edit')]
     public function edit(Request $request, Article $article, SessionInterface $session): Response
     {
-        if (!$session->has('id') || !$this->asPermission($session, $request, $article)) {
+        if (!$session->has('id')) {
+            return $this->redirectToRoute('article_index');
+        }
+
+        if (!$this->isAuthorized($request, "ROLE_ADMIN") && !($article->getAuthor()->getUserApiId() === $session->get('id'))) {
             return $this->redirectToRoute('default');
         }
 
@@ -102,6 +106,10 @@ final class ArticleController extends AbstractController
         Request $request
     ): Response
     {
+        if (!$this->isAuthorized($request, "ROLE_AUTHOR") && !$article->isPublish()) {
+            return $this->redirectToRoute('article_index');
+        }
+
         if ($session->has('id')) {
             $user = $this->userRepository->findOneBy(['id' => $session->get('id')]);
 

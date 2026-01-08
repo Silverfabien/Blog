@@ -1,11 +1,81 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Article{% endblock %}
+{% form_theme form _self %}
+
+{% block form_row %}{{ form_widget(form) }}{% endblock %}
+
+{% block title %}Nouvel Article - BlogIA{% endblock %}
 
 {% block body %}
-    <h1>Create new Article</h1>
+    <main class="min-h-screen bg-base-200">
+        <div class="bg-linear-to-br from-primary to-secondary pt-32 pb-24 px-4 text-center text-primary-content">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 drop-shadow-lg">Rédiger un nouvel article</h1>
+            <p class="text-lg opacity-90 max-w-xl mx-auto font-light">
+                Partagez vos connaissances et vos découvertes avec la communauté.
+            </p>
+        </div>
 
-    {{ include('article/_form.html.twig') }}
+        <div class="container mx-auto px-4 -mt-12 pb-20 relative z-10">
+            <div class="max-w-4xl mx-auto">
+                <div class="card bg-base-100 shadow-2xl border border-base-300">
+                    <div class="card-body p-8 md:p-12">
 
-    <a href="{{ path('article_index') }}">back to list</a>
+                        {{ form_start(form, {'attr': {'class': 'space-y-8'}}) }}
+
+                        <div class="flex flex-col gap-2">
+                            <label class="font-bold opacity-70 text-sm uppercase tracking-wider ml-1">Titre de l'article</label>
+                            {{ form_widget(form.title, {'attr': {'class': 'input input-bordered input-lg focus:input-primary bg-base-100 w-full font-bold', 'placeholder': 'Un titre percutant...'}}) }}
+                            {{ form_errors(form.title) }}
+                        </div>
+
+                        <div class="flex flex-col gap-2 p-6 bg-base-200 rounded-2xl border-2 border-dashed border-base-300 group hover:border-primary transition-colors">
+                            <label class="font-bold opacity-70 text-sm uppercase tracking-wider flex items-center gap-2">
+                                <i class="fas fa-image text-primary"></i> Image de couverture
+                            </label>
+                            <div class="mt-2">
+                                {{ form_widget(form.pictureFile, {'attr': {'class': 'file-input file-input-bordered file-input-primary w-full'}}) }}
+                            </div>
+                            <p class="text-[10px] opacity-50 italic mt-1">Format recommandé : 1200x600px (JPG, PNG, WEBP)</p>
+                        </div>
+
+                        <div class="flex flex-col gap-2">
+                            <label class="font-bold opacity-70 text-sm uppercase tracking-wider ml-1">Description courte (Accroche)</label>
+                            {{ form_widget(form.description, {'attr': {'class': 'textarea textarea-bordered focus:textarea-primary bg-base-100 w-full h-24 italic', 'placeholder': 'Résumez votre article en quelques lignes pour donner envie de lire...'}}) }}
+                            {{ form_errors(form.description) }}
+                        </div>
+
+                        <div class="flex flex-col gap-2">
+                            <label class="font-bold opacity-70 text-sm uppercase tracking-wider ml-1">Contenu de l'article</label>
+                            {{ form_widget(form.content, {'attr': {'class': 'textarea textarea-bordered focus:textarea-primary bg-base-100 w-full min-h-[400px] leading-relaxed', 'placeholder': 'Écrivez votre texte ici...'}}) }}
+                            {{ form_errors(form.content) }}
+                        </div>
+
+                        <div class="flex items-center justify-between p-6 bg-base-200 rounded-2xl shadow-inner">
+                            <div class="flex flex-col">
+                                <span class="font-bold text-base-content">Rendre l'article public ?</span>
+                                <span class="text-xs opacity-50">S'il est décoché, il sera enregistré en tant que brouillon.</span>
+                            </div>
+                            <div class="form-control">
+                                {{ form_widget(form.publish, {'attr': {'class': 'toggle toggle-primary toggle-lg'}}) }}
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col md:flex-row items-center justify-between gap-4 border-t border-base-200 pt-8 mt-10">
+                            <a href="{{ path('article_index') }}" class="btn btn-ghost gap-2 order-2 md:order-1">
+                                <i class="fas fa-times text-xs"></i>
+                                Annuler
+                            </a>
+                            <button type="submit" class="btn btn-primary btn-wide shadow-xl shadow-primary/20 order-1 md:order-2">
+                                <i class="fas fa-paper-plane mr-2"></i>
+                                Enregistrer l'article
+                            </button>
+                        </div>
+
+                        {{ form_end(form) }}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 {% endblock %}
