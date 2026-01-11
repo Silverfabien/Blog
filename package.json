@@ -17,6 +17,13 @@
     "main": "vite.config.js",
     "dependencies": {
         "@fortawesome/fontawesome-free": "^7.1.0",
+        "@tiptap/core": "^3.15.3",
+        "@tiptap/extension-color": "^3.15.3",
+        "@tiptap/extension-image": "^3.15.3",
+        "@tiptap/extension-link": "^3.15.3",
+        "@tiptap/extension-text-align": "^3.15.3",
+        "@tiptap/extension-text-style": "^3.15.3",
+        "@tiptap/starter-kit": "^3.15.3",
         "braces": "^3.0.3",
         "debug": "^4.4.3",
         "esbuild": "^0.27.2",
