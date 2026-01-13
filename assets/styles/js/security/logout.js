@@ -11,7 +11,7 @@ $.ajax({
             url: '/logout-session',
             method: 'POST',
             success: function () {
-                window.location.href = '/login';
+                window.location.href = '/';
             }
         });
     }

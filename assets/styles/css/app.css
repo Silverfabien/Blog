@@ -1,6 +1,9 @@
 @import "tailwindcss";
+@import "@fortawesome/fontawesome-free/css/all.css";
+
 @plugin "daisyui";
 
 html {
     background-color: lightgray;
+    scroll-behavior: smooth;
 }

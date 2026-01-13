@@ -1,0 +1,30 @@
+<footer class="bg-neutral text-neutral-content">
+    <div class="h-1 w-full from-primary to-secondary opacity-50"></div>
+
+    <div class="max-w-6xl mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-center gap-8">
+        <div class="flex flex-col items-center md:items-start text-center md:text-left gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-primary/20">
+                    B
+                </div>
+                <span class="text-2xl font-bold tracking-tighter">Blog<span class="text-primary">IA</span></span>
+            </div>
+            <p class="text-sm opacity-50 max-w-xs leading-relaxed">
+                Article de blog créé par l'IA sur le domaine du web.
+            </p>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-x-8 gap-y-4 text-sm font-medium">
+            <a href="{{ path('default') }}" class="hover:text-primary transition-colors duration-300">Accueil</a>
+            <a href="{{ path('article_index') }}" class="hover:text-primary transition-colors duration-300">Articles</a>
+            <a href="#" class="hover:text-primary transition-colors duration-300">Mentions légales</a>
+            <a href="#contact" class="hover:text-primary transition-colors duration-300">Contact</a>
+        </div>
+    </div>
+
+    <div class="border-t border-white/5 py-6">
+        <div class="text-center text-xs opacity-30">
+            Copyright © 2025-{{ "now"|date("Y") }} blog.silversat.ovh • Tous droits réservés
+        </div>
+    </div>
+</footer>

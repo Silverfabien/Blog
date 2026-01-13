@@ -29,7 +29,10 @@ class ArticleType extends AbstractType
                 'label' => "Description"
             ])
             ->add('content', TextAreaType::class, [
-                'label' => "Contenu"
+                'label' => "Contenu",
+                'attr' => [
+                    'data-tiptap' => 'editor'
+                ]
             ])
             ->add('publish', CheckboxType::class, [
                 'label' => "Publier",

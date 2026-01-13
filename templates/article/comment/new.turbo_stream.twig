@@ -1,13 +1,18 @@
-<turbo-stream action="prepend" target="comments-list">
+<turbo-stream action="append" target="comments-list">
     <template>
         {% include 'article/comment/_comment.html.twig' with {'comment': comment, 'user': user} %}
     </template>
 </turbo-stream>
 
-<turbo-stream action="replace" target="comment-form-container">
+<turbo-stream action="update" target="comment-count">
+    <template>{{ comment.article.comments|length }}</template>
+</turbo-stream>
+
+<turbo-stream action="replace" target="new_comment">
     <template>
-        <div id="comment-form-container">
-            <p class="alert alert-success">Commentaire ajouté.</p>
-        </div>
+        {% include 'article/comment/_new_form.html.twig' with {
+            'article': comment.article,
+            'form': form
+        } %}
     </template>
 </turbo-stream>

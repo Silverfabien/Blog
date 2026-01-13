@@ -5,6 +5,7 @@ namespace App\Controller\Security;
 use App\DTO\Security\UserEditDTO;
 use App\Form\Security\ResetPasswordType;
 use App\Form\Security\UserEditType;
+use App\Repository\User\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,7 +15,8 @@ use Symfony\Component\Routing\Attribute\Route;
 final class UserController extends AbstractController
 {
     public function __construct(
-        private readonly ParameterBagInterface $params
+        private readonly ParameterBagInterface $params,
+        private readonly UserRepository $userRepository
     ){}
 
     #[Route('/account', name: 'account')]
@@ -31,9 +33,13 @@ final class UserController extends AbstractController
         $userForm = $this->createForm(UserEditType::class, $userDto)->handleRequest($request);
         $resetPasswordForm = $this->createForm(ResetPasswordType::class)->handleRequest($request);
 
+        $user = $this->userRepository->findOneBy(['id' => $userInfo['user']['id']]);
+
         return $this->render('security/account.html.twig', [
             'userForm' => $userForm->createView(),
             'resetPasswordForm' => $resetPasswordForm->createView(),
+            'user' => $user,
+            'userInfo' => $userInfo['otherData']
         ]);
     }
 
