@@ -1,20 +1,59 @@
 <turbo-frame id="new_comment">
     {{ form_start(form, {
         'action': path('comment_new', {'slug': article.slug}),
-        'attr': {'data-turbo-frame': '_top'}
+        'attr': {
+            'data-turbo-frame': '_top',
+            'class': 'space-y-3'
+        }
     }) }}
-    <div class="form-control mb-4">
-        {{ form_widget(form.content, {
-            'attr': {
-                'class': 'textarea textarea-bordered focus:textarea-primary bg-base-100 w-full h-24',
-                'placeholder': 'Votre commentaire...'
-            }
-        }) }}
+
+    {# Toolbar commentaire #}
+    <div id="comment-toolbar" class="flex flex-wrap gap-2 p-2 bg-base-100 rounded-lg border border-base-300">
+        <button type="button" data-action="bold" class="btn btn-ghost btn-sm">
+            <i class="fas fa-bold"></i>
+        </button>
+        <button type="button" data-action="italic" class="btn btn-ghost btn-sm">
+            <i class="fas fa-italic"></i>
+        </button>
+        <button type="button" data-action="underline" class="btn btn-ghost btn-sm">
+            <i class="fas fa-underline"></i>
+        </button>
+        <button type="button" data-action="strike" class="btn btn-ghost btn-sm">
+            <i class="fas fa-strikethrough"></i>
+        </button>
+
+        <div class="h-5 w-px bg-base-300 mx-1"></div>
+
+        <button type="button" data-action="blockquote" class="btn btn-ghost btn-sm">
+            <i class="fas fa-quote-left"></i>
+        </button>
+        <button type="button" data-action="codeBlock" class="btn btn-ghost btn-sm">
+            <i class="fas fa-code"></i>
+        </button>
+        <button type="button" data-action="code" class="btn btn-ghost btn-sm" title="Code inline">
+            <i class="fas fa-terminal"></i>
+        </button>
     </div>
-    <div class="flex justify-end">
+
+    {# Zone TipTap #}
+    <div
+        id="comment-editor"
+        class="bg-base-100 border border-base-300 rounded-xl p-3 min-h-[96px] focus-within:ring-2 focus-within:ring-primary/30 transition"
+    ></div>
+
+    {# Champ Symfony caché #}
+    {{ form_widget(form.content, {
+        attr: {
+            style: 'display:none',
+            'data-comment-textarea': true
+        }
+    }) }}
+
+    <div class="flex justify-end pt-2">
         <button type="submit" class="btn btn-primary shadow-lg">
             Publier le commentaire
         </button>
     </div>
+
     {{ form_end(form) }}
 </turbo-frame>

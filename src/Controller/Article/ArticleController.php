@@ -12,6 +12,7 @@ use App\Repository\Article\CommentRepository;
 use App\Repository\User\UserRepository;
 use Silversat\PermissionBundle\Security\PermissionChecker;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -157,6 +158,27 @@ final class ArticleController extends AbstractController
         }
 
         return $this->redirectToRoute('article_index');
+    }
+
+    #[Route('/upload/picture', name: 'upload_picture', methods: ['POST'])]
+    public function uploadPicture(Request $request): JsonResponse
+    {
+        $file = $request->files->get('file');
+
+        if (!$file) {
+            return new JsonResponse(['error' => 'No file was uploaded.'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $filename = uniqid() . '.' . $file->guessExtension();
+
+        $file->move(
+            $this->getParameter('kernel.project_dir') . '/public/uploads/pictures/articles/content',
+            $filename
+        );
+
+        return $this->json([
+            'url' => '/uploads/pictures/articles/content/' . $filename,
+        ]);
     }
 
     private function isAuthorized(Request $request, string $attempt): bool

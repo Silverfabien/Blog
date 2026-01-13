@@ -21,7 +21,8 @@ export default defineConfig({
                 check_token: "./assets/styles/js/security/check_token.js",
                 user: "./assets/styles/js/security/user.js",
                 navbar: "./assets/styles/js/layouts/navbar.js",
-                article_editor: "./assets/styles/js/article/article_editor.js"
+                article_editor: "./assets/styles/js/article/article_editor.js",
+                comment_editor: "./assets/styles/js/article/comment_editor.js"
             },
         },
     },

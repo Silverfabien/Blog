@@ -44,11 +44,7 @@
                             {{ form_errors(form.description) }}
                         </div>
 
-                        <div class="flex flex-col gap-2">
-                            <label class="font-bold opacity-70 text-sm uppercase tracking-wider ml-1">Contenu de l'article</label>
-                            {{ form_widget(form.content, {'attr': {'class': 'textarea textarea-bordered focus:textarea-primary bg-base-100 w-full min-h-[400px] leading-relaxed', 'placeholder': 'Écrivez votre texte ici...'}}) }}
-                            {{ form_errors(form.content) }}
-                        </div>
+                        {{ include('article/_form_editor.html.twig') }}
 
                         <div class="flex items-center justify-between p-6 bg-base-200 rounded-2xl shadow-inner">
                             <div class="flex flex-col">
@@ -78,4 +74,9 @@
             </div>
         </div>
     </main>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ vite_entry_script_tags('article_editor') }}
 {% endblock %}

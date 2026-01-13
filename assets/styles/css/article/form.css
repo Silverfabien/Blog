@@ -1,14 +1,10 @@
+#editor-toolbar {
+    position: relative;
+}
+
 #editor-toolbar .btn-primary {
     background-color: hsl(var(--p) / 0.15);
     color: hsl(var(--p));
-}
-
-.editor-group {
-    display: flex;
-    gap: 0.25rem;
-    padding: 0.25rem;
-    border-radius: 0.5rem;
-    background-color: hsl(var(--b2));
 }
 
 #editor-toolbar i {
@@ -19,10 +15,28 @@
     background-color: hsl(var(--p) / 0.08);
 }
 
+.editor-group {
+    display: flex;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    border-radius: 0.5rem;
+    background-color: hsl(var(--b2));
+}
+
 .tiptap-separator {
-    background-color: #111111;
-    height: 1.5rem;
     width: 1px;
+    height: 1.5rem;
+    margin-top: 5px;
+    background-color: black;
+}
+
+.ProseMirror {
+    outline: none;
+}
+
+#editor.dragover {
+    outline: 2px dashed oklch(var(--p));
+    background-color: oklch(var(--b2));
 }
 
 .ProseMirror p {
@@ -32,10 +46,6 @@
 .ProseMirror a {
     color: #2563eb;
     text-decoration: underline;
-}
-
-.ProseMirror:focus {
-    outline: none;
 }
 
 .ProseMirror ul {
@@ -69,65 +79,78 @@
     margin-bottom: 1.5rem;
 }
 
-.ProseMirror h1 {
-    font-size: 1.4rem;
-}
-
-.ProseMirror h2 {
-    font-size: 1.2rem;
-}
-
-.ProseMirror h3 {
-    font-size: 1.1rem;
-}
-
+.ProseMirror h1 { font-size: 1.4rem; }
+.ProseMirror h2 { font-size: 1.2rem; }
+.ProseMirror h3 { font-size: 1.1rem; }
 .ProseMirror h4,
 .ProseMirror h5,
-.ProseMirror h6 {
-    font-size: 1rem;
+.ProseMirror h6 { font-size: 1rem; }
+
+.ProseMirror [style*="text-align: left"]   { text-align: left; }
+.ProseMirror [style*="text-align: center"] { text-align: center; }
+.ProseMirror [style*="text-align: right"]  { text-align: right; }
+.ProseMirror [style*="text-align: justify"]{ text-align: justify; }
+
+.ProseMirror img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    cursor: pointer;
 }
 
-.ProseMirror hr {
-    border: none;
-    border-top: 1px solid #e5e7eb; /* gray-200 */
-    margin: 2rem 0;
+.ProseMirror img.img-align-left {
+    margin-left: 0;
+    margin-right: auto;
 }
 
-/* =========================
-   TEXT ALIGN
-========================= */
-
-.ProseMirror [style*="text-align: left"] {
-    text-align: left;
+.ProseMirror img.img-align-center {
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.ProseMirror [style*="text-align: center"] {
-    text-align: center;
+.ProseMirror img.img-align-right {
+    margin-left: auto;
+    margin-right: 0;
 }
 
-.ProseMirror [style*="text-align: right"] {
-    text-align: right;
+.ProseMirror img.ProseMirror-selectednode {
+    outline: 3px solid oklch(var(--p));
+    outline-offset: 4px;
 }
 
-.ProseMirror [style*="text-align: justify"] {
-    text-align: justify;
+.image-resize-handle {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background: black;
+    border-radius: 9999px;
+    cursor: ew-resize;
+    z-index: 1000;
+    box-shadow: 0 0 0 2px white;
+
 }
 
-/* =========================
-   CODE INLINE
-========================= */
+#image-toolbar {
+    pointer-events: auto;
+    transition:
+        opacity 0.15s ease,
+        transform 0.15s ease;
+}
+
+#image-toolbar.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(4px);
+}
 
 .ProseMirror code {
-    background-color: #ede9fe; /* équivalent purple-light */
+    background-color: #ede9fe;
     border-radius: 0.4rem;
     color: #111;
     font-size: 0.85rem;
     padding: 0.25em 0.3em;
 }
-
-/* =========================
-   CODE BLOCK
-========================= */
 
 .ProseMirror pre {
     background: #111;
@@ -145,24 +168,16 @@
     padding: 0;
 }
 
-/* =========================
-   BLOCKQUOTE
-========================= */
-
 .ProseMirror blockquote {
-    border-left: 3px solid #d1d5db; /* gray-300 */
+    border-left: 3px solid #d1d5db;
     margin: 1.5rem 0;
     padding-left: 1rem;
-    color: #374151; /* gray-700 */
+    color: #374151;
     font-style: italic;
 }
 
-/* =========================
-   HR
-========================= */
-
 .ProseMirror hr {
     border: none;
-    border-top: 1px solid #e5e7eb; /* gray-200 */
+    border-top: 1px solid #e5e7eb;
     margin: 2rem 0;
 }

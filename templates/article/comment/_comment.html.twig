@@ -5,7 +5,7 @@
                 <span class="text-lg font-bold">{{ comment.author.username|first|upper }}</span>
             </div>
         </div>
-        <div class="flex-1">
+        <div class="flex-1 comment-content">
             <div class="bg-base-100 border border-base-300 rounded-2xl rounded-tl-none p-4 shadow-sm group-hover:shadow-md transition-shadow relative">
                 <div class="flex justify-between items-center mb-2">
                     <span class="font-bold text-primary">{{ comment.author.username }}</span>
@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <p class="text-base-content/80 text-sm leading-relaxed">
-                    {{ comment.content }}
+                    {{ comment.content|raw }}
                 </p>
             </div>
         </div>
