@@ -1,7 +1,11 @@
 <turbo-frame id="comment-frame-{{ comment.id }}">
-    {{ form_start(form, {action: path('comment_edit', {id: comment.id})}) }}
-        {{ form_widget(form) }}
-        <button class="btn btn-primary">Enregistrer</button>
-        <a href="{{ path('article_show', {slug: comment.article.slug}) }}">Annuler</a>
+    {{ form_start(form, {'action': path('comment_edit', {'id': comment.id}), 'attr': {'class': 'bg-base-200 p-4 rounded-xl mt-2'}}) }}
+    <div class="form-control mb-2">
+        {{ form_widget(form.content, {'attr': {'class': 'textarea textarea-bordered focus:textarea-primary bg-base-100 w-full h-20'}}) }}
+    </div>
+    <div class="flex justify-end gap-2">
+        <a href="{{ path('article_show', {'slug': comment.article.slug}) }}" class="btn btn-ghost btn-xs">Annuler</a>
+        <button type="submit" class="btn btn-primary btn-xs px-4">Enregistrer</button>
+    </div>
     {{ form_end(form) }}
 </turbo-frame>

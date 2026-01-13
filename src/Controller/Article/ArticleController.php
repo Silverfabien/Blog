@@ -8,9 +8,11 @@ use App\Entity\Article\Comment;
 use App\Form\Article\ArticleType;
 use App\Form\Article\CommentType;
 use App\Repository\Article\ArticleRepository;
+use App\Repository\Article\CommentRepository;
 use App\Repository\User\UserRepository;
 use Silversat\PermissionBundle\Security\PermissionChecker;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -22,14 +24,36 @@ final class ArticleController extends AbstractController
     public function __construct(
         private readonly ArticleControllerHandler $articleControllerHandler,
         private readonly PermissionChecker $permissionChecker,
-        private readonly UserRepository $userRepository
+        private readonly UserRepository $userRepository,
+        private readonly ArticleRepository $articleRepository,
+        private readonly CommentRepository $commentRepository
     ) {}
 
     #[Route(name: 'index')]
-    public function index(ArticleRepository $articleRepository): Response
+    public function index(
+        ArticleRepository $articleRepository,
+        Request $request
+    ): Response
     {
+        $page = $request->query->getInt('page', 1);
+        $limit = 9;
+
+        $articles = $articleRepository->findPaginated($page, $limit);
+        $totalArticles = $articleRepository->count(['publish' => true]);
+        $hasNextPage = ($page * $limit) < $totalArticles;
+
+        if ($request->headers->get('Turbo-Frame')) {
+            return $this->render('article/_articles_list.html.twig', [
+                'articles' => $articles,
+                'page' => $page,
+                'hasNextPage' => $hasNextPage,
+            ]);
+        }
+
         return $this->render('article/index.html.twig', [
-            'articles' => $articleRepository->findAll(),
+            'articles' => $articles,
+            'page' => $page,
+            'hasNextPage' => $hasNextPage
         ]);
     }
 
@@ -56,7 +80,11 @@ final class ArticleController extends AbstractController
     #[Route('/{slug}/edit', name: 'edit')]
     public function edit(Request $request, Article $article, SessionInterface $session): Response
     {
-        if (!$session->has('id') || !$this->asPermission($session, $request, $article)) {
+        if (!$session->has('id')) {
+            return $this->redirectToRoute('article_index');
+        }
+
+        if (!$this->isAuthorized($request, "ROLE_ADMIN") && !($article->getAuthor()->getUserApiId() === $session->get('id'))) {
             return $this->redirectToRoute('default');
         }
 
@@ -73,8 +101,16 @@ final class ArticleController extends AbstractController
     }
 
     #[Route('/{slug}', name: 'show')]
-    public function show(Article $article, SessionInterface $session): Response
+    public function show(
+        Article $article,
+        SessionInterface $session,
+        Request $request
+    ): Response
     {
+        if (!$this->isAuthorized($request, "ROLE_AUTHOR") && !$article->isPublish()) {
+            return $this->redirectToRoute('article_index');
+        }
+
         if ($session->has('id')) {
             $user = $this->userRepository->findOneBy(['id' => $session->get('id')]);
 
@@ -82,10 +118,31 @@ final class ArticleController extends AbstractController
             $form = $this->createForm(CommentType::class, $comment);
         }
 
+        $suggestedArticles = $this->articleRepository->findSuggested(3, $article->getId());
+
+        $page = $request->query->getInt('page', 1);
+        $limit = 10;
+        $comments = $this->commentRepository->findPaginatedByArticle($article, $page, $limit);
+        $totalComments = $this->commentRepository->count(['article' => $article]);
+        $hasNextPage = ($page * $limit) < $totalComments;
+
+        if ($request->headers->get('Turbo-Frame')) {
+            return $this->render('article/comment/_comments_list.html.twig', [
+                'comments' => $comments,
+                'hasNextPage' => $hasNextPage,
+                'page' => $page,
+                'article' => $article,
+            ]);
+        }
+
         return $this->render('article/show.html.twig', [
             'article' => $article,
             'user' => $user ?? null,
-            'form' => isset($form) ? $form->createView() : null
+            'form' => isset($form) ? $form->createView() : null,
+            'suggestedArticles' => $suggestedArticles,
+            'comments' => $comments,
+            'hasNextPage' => $hasNextPage,
+            'page' => $page
         ]);
     }
 
@@ -101,6 +158,27 @@ final class ArticleController extends AbstractController
         }
 
         return $this->redirectToRoute('article_index');
+    }
+
+    #[Route('/upload/picture', name: 'upload_picture', methods: ['POST'])]
+    public function uploadPicture(Request $request): JsonResponse
+    {
+        $file = $request->files->get('file');
+
+        if (!$file) {
+            return new JsonResponse(['error' => 'No file was uploaded.'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $filename = uniqid() . '.' . $file->guessExtension();
+
+        $file->move(
+            $this->getParameter('kernel.project_dir') . '/public/uploads/pictures/articles/content',
+            $filename
+        );
+
+        return $this->json([
+            'url' => '/uploads/pictures/articles/content/' . $filename,
+        ]);
     }
 
     private function isAuthorized(Request $request, string $attempt): bool

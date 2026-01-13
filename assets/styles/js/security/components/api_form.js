@@ -31,12 +31,20 @@ export function handleForm(formId, apiUrl, fields, extras = {}) {
             },
             data: JSON.stringify(data),
             xhrFields: { withCredentials: true },
-            success: function () {
+            success: function (response) {
                 if (apiUrl.endsWith('/login_check')) {
                     window.location.href = '/';
                 } else {
                     $(`${formId} ~ #result`).removeClass('text-danger').addClass('text-success').text('Opération réussie.');
                 }
+
+                setTimeout(() => {
+                    $('#username').text(response.username);
+                    $('#email').text(response.email);
+                    Turbo.visit(window.location.pathname, {
+                        frame: 'account-profil'
+                    });
+                }, 1000)
             },
             error: function (xhr) {
                 const response = xhr.responseJSON;

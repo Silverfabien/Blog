@@ -38,9 +38,11 @@ final class CommentController extends AbstractController
             $user = $this->userRepository->findOneBy(['id' => $userId]);
 
             if ($request->getPreferredFormat() === 'turbo_stream') {
+                $emptyForm = $this->createForm(CommentType::class, new Comment());
                 return $this->render('article/comment/new.turbo_stream.twig', [
                     'comment' => $comment,
-                    'user' => $user
+                    'user' => $user,
+                    'form' => $emptyForm->createView(),
                 ], new Response('', Response::HTTP_CREATED, ['Content-Type' => 'text/vnd.turbo-stream.html']));
             }
 
@@ -70,7 +72,10 @@ final class CommentController extends AbstractController
 
         $form = $this->createForm(CommentType::class, $comment)->handleRequest($request);
         if ($this->commentControllerHandler->edit($form, $comment)) {
-            return $this->redirectToRoute('article_show', ['slug' => $comment->getArticle()->getSlug()]);
+            return $this->render('article/comment/_comment.html.twig', [
+                'comment' => $comment,
+                'user' => $this->userRepository->findOneBy(['id' => $session->get('id')])
+            ]);
         }
 
         return $this->render('article/comment/_edit_form.html.twig', [
@@ -90,7 +95,6 @@ final class CommentController extends AbstractController
             return $this->redirectToRoute('default');
         }
 
-
         if ($this->isCsrfTokenValid('delete'.$comment->getId(), $request->getPayload()->getString('_token'))) {
             $commentId = $comment->getId();
 
@@ -99,11 +103,14 @@ final class CommentController extends AbstractController
             if ($request->getPreferredFormat() === 'turbo_stream') {
                 return $this->render('article/comment/delete.turbo_stream.twig', [
                     'comment_id' => $commentId,
+                    'comment_count' => $comment->getArticle()->getComments()->count()
                 ], new Response('', Response::HTTP_OK, ['Content-Type' => 'text/vnd.turbo-stream.html']));
             }
         }
 
-        return $this->redirectToRoute('article_show', ['slug' => $comment->getArticle()->getSlug()]);
+        return $this->redirectToRoute('article_show', [
+            'slug' => $comment->getArticle()->getSlug()
+        ]);
     }
 
     private function isAuthorized(Request $request, string $attempt): bool

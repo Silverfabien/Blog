@@ -1,0 +1,205 @@
+.article-content {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #1f2937;
+}
+
+.article-content p {
+    margin: 1rem 0;
+}
+
+.article-content h1,
+.article-content h2,
+.article-content h3,
+.article-content h4 {
+    font-weight: 700;
+    line-height: 1.25;
+    margin-top: 3rem;
+    margin-bottom: 1.25rem;
+    color: #111827;
+}
+
+.article-content h1 { font-size: 2rem; }
+.article-content h2 { font-size: 1.6rem; }
+.article-content h3 { font-size: 1.3rem; }
+.article-content h4 { font-size: 1.1rem; }
+
+.article-content a {
+    color: #2563eb;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.article-content a:hover {
+    text-decoration-thickness: 2px;
+}
+
+.article-content ul {
+    list-style-type: disc;
+}
+
+.article-content ol {
+    list-style-type: decimal;
+}
+
+.article-content ul,
+.article-content ol {
+    padding-left: 1.5rem;
+    margin: 1.25rem 0;
+}
+
+.article-content li {
+    margin: 0.4rem 0;
+}
+
+.article-content img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.75rem;
+    margin: 2rem 0;
+}
+
+/* Alignements hérités de l’éditeur */
+.article-content img.img-align-left {
+    margin-left: 0;
+    margin-right: auto;
+}
+
+.article-content img.img-align-center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.article-content img.img-align-right {
+    margin-left: auto;
+    margin-right: 0;
+}
+
+.article-content blockquote {
+    border-left: 4px solid #3b82f6;
+    padding-left: 1rem;
+    margin: 2rem 0;
+    color: #374151;
+    font-style: italic;
+}
+
+.article-content code {
+    background: #f3f4f6;
+    padding: 0.2em 0.35em;
+    border-radius: 0.4rem;
+    font-size: 0.9em;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.article-content pre {
+    background: #0f172a;
+    color: #e5e7eb;
+    border-radius: 0.75rem;
+    padding: 1rem 1.25rem;
+    margin: 2rem 0;
+    overflow-x: auto;
+    font-size: 0.85rem;
+}
+
+.article-content pre code {
+    background: none;
+    padding: 0;
+    color: inherit;
+}
+
+.article-content hr {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 3rem 0;
+}
+
+#comment-toolbar button {
+    transition: background-color 0.15s ease;
+}
+
+#comment-toolbar button:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+#comment-editor .ProseMirror {
+    outline: none;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+#comment-editor .ProseMirror p {
+    margin: 0.5rem 0;
+}
+
+#comment-editor .ProseMirror blockquote {
+    border-left: 3px solid #3b82f6;
+    padding-left: 0.75rem;
+    margin: 0.75rem 0;
+    color: #4b5563;
+    font-style: italic;
+}
+
+#comment-editor .ProseMirror code {
+    padding: 0.15em 0.3em;
+    border-radius: 0.3rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+#comment-editor .ProseMirror pre {
+    background: #0f172a;
+    color: #e5e7eb;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.8rem;
+    margin: 0.75rem 0;
+    overflow-x: auto;
+}
+
+#comment-editor .ProseMirror code {
+    background: #f3f4f6;
+    padding: 0.15em 0.3em;
+    border-radius: 0.3rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+#comment-editor .ProseMirror pre code {
+    background: #0f172a;
+}
+
+.comment-content {
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.comment-content p {
+    margin: 0.5rem 0;
+}
+
+.comment-content blockquote {
+    border-left: 3px solid #3b82f6;
+    padding-left: 0.75rem;
+    margin: 0.75rem 0;
+    color: #4b5563;
+    font-style: italic;
+}
+
+.comment-content pre {
+    background: #0f172a;
+    color: #e5e7eb;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.8rem;
+    max-height: 300px;
+    overflow: auto;
+}
+
+.comment-content code {
+    background: #f3f4f6;
+    padding: 0.15em 0.3em;
+    border-radius: 0.3rem;
+}
+
+.comment-content pre code {
+    background: #0f172a;
+}

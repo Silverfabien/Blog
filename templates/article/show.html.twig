@@ -1,74 +1,131 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Article{% endblock %}
+{% block title %}{{ article.title }}{% endblock %}
 
 {% block body %}
-    <h1>Article</h1>
+    <main class="bg-base-200 min-h-screen">
+        <div class="relative h-[50vh] w-full overflow-hidden">
+            {% if article.pictureName %}
+                <img src="{{ asset('uploads/pictures/articles/' ~ article.pictureName) }}" alt="{{ article.title }}" class="w-full h-full object-cover">
+            {% else %}
+                <div class="w-full h-full bg-linear-to-br from-primary to-secondary opacity-30"></div>
+            {% endif %}
+            <div class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-center p-4">
+                <div class="badge badge-primary mb-4 uppercase font-bold tracking-widest px-4 py-3">Intelligence Artificielle</div>
+                <h1 class="text-4xl md:text-6xl font-extrabold text-white max-w-4xl leading-tight">{{ article.title }}</h1>
+                <div class="flex items-center gap-6 mt-8 text-white/80 font-medium">
+                    <span class="flex items-center gap-2"><i class="fas fa-calendar-alt text-primary"></i> {{ article.publishAt|date('d M Y') }}</span>
+                    <span class="flex items-center gap-2"><i class="fas fa-eye text-primary"></i> {{ article.see }} vues</span>
+                </div>
+            </div>
+        </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ article.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ article.title }}</td>
-            </tr>
-            <tr>
-                <th>Slug</th>
-                <td>{{ article.slug }}</td>
-            </tr>
-            <tr>
-                <th>Content</th>
-                <td>{{ article.content }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ article.description }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ article.createdAt ? article.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>UpdatedAt</th>
-                <td>{{ article.updatedAt ? article.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Publish</th>
-                <td>{{ article.publish ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>PublishAt</th>
-                <td>{{ article.publishAt ? article.publishAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>See</th>
-                <td>{{ article.see }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <div class="container mx-auto px-4 -mt-16 relative z-10 pb-20">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-8">
+                    <article class="card bg-base-100 shadow-2xl p-8 md:p-12 prose prose-lg max-w-none border border-base-300">
+                        <div class="article-content">
+                            {{ article.content|raw }}
+                        </div>
 
-    <hr>
+                        <div class="divider mt-12"></div>
 
-    <h2>Commentaires</h2>
+                        <div class="flex flex-wrap items-center justify-between gap-4">
+                            <div class="flex items-center gap-4">
+                                <button class="btn btn-outline btn-primary rounded-full px-6 group transition-all hover:scale-105">
+                                    <i class="far fa-heart group-hover:fas transition-all"></i>
+                                    <span class="font-bold">J'aime</span>
+                                    <div class="badge badge-primary badge-sm ml-2 font-mono">0</div>
+                                </button>
 
-    <div id="comment-form-container">
-        {% include 'article/comment/_new_form.html.twig' %}
-    </div>
+                                <span class="text-xs opacity-40 italic hidden md:block">
+                            </span>
+                            </div>
 
-    <div id="comments-list">
-        {% for comment in article.comments %}
-            {% include 'article/comment/_comment.html.twig' with {'comment': comment, 'user': user} %}
-        {% endfor %}
-    </div>
+                            <a href="{{ path('default') }}" class="btn btn-ghost btn-sm gap-2">
+                                <i class="fas fa-chevron-left text-xs"></i>
+                                Retour à l'accueil
+                            </a>
+                        </div>
+                    </article>
 
+                    <section class="mt-12 bg-base-100 rounded-3xl shadow-xl p-8 border border-base-300">
+                        <h3 class="text-2xl font-bold mb-8 flex items-center gap-3">
+                            <i class="fas fa-comments text-primary"></i>
+                            Commentaires (<span id="comment-count">{{ article.comments|length }}</span>)
+                        </h3>
 
+                        <div id="comment-form-container" class="mb-10 p-6 bg-base-200 rounded-2xl">
+                            {% if app.session.get('id') %}
+                                <h4 class="font-bold mb-4">Laisser un commentaire</h4>
+                                {% include 'article/comment/_new_form.html.twig' %}
+                            {% else %}
+                                <div class="text-center py-4">
+                                    <p class="opacity-70 mb-4">Vous devez être connecté pour commenter.</p>
+                                    <button onclick="login_modal.showModal()" class="btn btn-primary btn-sm">Connexion</button>
+                                </div>
+                            {% endif %}
+                        </div>
 
-    <a href="{{ path('article_index') }}">back to list</a>
+                        <div id="comments-list">
+                            {% include 'article/comment/_comments_list.html.twig' with {
+                                'comments': comments,
+                                'page': 1,
+                                'hasNextPage': hasNextPage,
+                                'article': article
+                            } %}
+                        </div>
+                    </section>
+                </div>
 
-    <a href="{{ path('article_edit', {'slug': article.slug}) }}">edit</a>
+                <aside class="lg:col-span-4 space-y-8">
+                    <div class="card bg-base-100 shadow-xl border border-base-300 overflow-hidden">
+                        <div class="h-20 bg-linear-to-r from-primary to-secondary"></div>
+                        <div class="px-6 pb-6 text-center">
+                            <div class="avatar placeholder -mt-10 mb-4">
+                                <div class="bg-neutral text-neutral-content rounded-full w-20 h-20 ring ring-base-100 ring-offset-2">
+                                    <span class="text-2xl">{{ article.author.username|first|upper }}</span>
+                                </div>
+                            </div>
+                            <h3 class="text-xl font-bold">{{ article.author.username }}</h3>
+                            <div class="badge badge-ghost text-xs opacity-60 mb-4 italic">Auteur de l'article</div>
+                            <p class="text-sm opacity-70 mb-6">
+                                Passionné par l'IA et les nouvelles technologies. Partage ses découvertes quotidiennement.
+                            </p>
+                            <button class="btn btn-primary btn-sm btn-outline w-full">Voir son profil</button>
+                        </div>
+                    </div>
 
-    {{ include('article/_delete_form.html.twig') }}
+                    <div class="card bg-base-100 shadow-xl p-6 border border-base-300">
+                        <h3 class="text-lg font-bold mb-4 border-b border-base-200 pb-2 text-primary">Articles suggérés</h3>
+
+                        <div class="space-y-6">
+                            {% for suggested in suggestedArticles %}
+                                <a href="{{ path('article_show', {'slug': suggested.slug}) }}" class="group flex gap-4 items-center">
+                                    <div class="w-20 h-20 shrink-0 overflow-hidden rounded-xl bg-base-300">
+                                        {% if suggested.pictureName %}
+                                            <img src="{{ asset('uploads/pictures/articles/' ~ suggested.pictureName) }}" alt="{{ suggested.title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                                        {% else %}
+                                            <div class="w-full h-full flex items-center justify-center opacity-20"><i class="fas fa-image"></i></div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-bold text-sm leading-tight group-hover:text-primary transition-colors line-clamp-2">{{ suggested.title }}</h4>
+                                        <span class="text-[10px] opacity-50 uppercase font-semibold tracking-wider">{{ suggested.publishAt|date('d M Y') }}</span>
+                                    </div>
+                                </a>
+                            {% else %}
+                                <p class="opacity-50 italic text-center py-4">Aucune autre lecture pour le moment.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ vite_entry_script_tags('comment_editor') }}
 {% endblock %}

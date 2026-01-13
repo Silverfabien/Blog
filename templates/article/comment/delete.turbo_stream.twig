@@ -1,1 +1,5 @@
 <turbo-stream action="remove" target="comment-frame-{{ comment_id }}"></turbo-stream>
+
+<turbo-stream action="update" target="comment-count">
+    <template>{{ comment_count }}</template>
+</turbo-stream>
