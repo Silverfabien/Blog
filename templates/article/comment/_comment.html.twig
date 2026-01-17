@@ -22,7 +22,7 @@
                                     </a>
                                 {% endif %}
 
-                                {% if (app.session.get('id') == comment.author.id or is_granted('ROLE_ADMIN')) %}
+                                {% if (app.session.get('id') == comment.author.id) or app.session.get('role') == "ROLE_ADMIN" %}
                                     {{ include('article/comment/_delete_form.html.twig') }}
                                 {% endif %}
                             </div>

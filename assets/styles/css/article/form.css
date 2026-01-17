@@ -3,8 +3,8 @@
 }
 
 #editor-toolbar .btn-primary {
-    background-color: hsl(var(--p) / 0.15);
-    color: hsl(var(--p));
+    background-color: rgba(59, 130, 246, 0.15);
+    color: #2563eb;
 }
 
 #editor-toolbar i {
@@ -12,7 +12,7 @@
 }
 
 #editor-toolbar button:hover {
-    background-color: hsl(var(--p) / 0.08);
+    background-color: rgba(59, 130, 246, 0.08);
 }
 
 .editor-group {
@@ -20,7 +20,7 @@
     gap: 0.25rem;
     padding: 0.25rem;
     border-radius: 0.5rem;
-    background-color: hsl(var(--b2));
+    background-color: #f8f8f8;
 }
 
 .tiptap-separator {
@@ -35,8 +35,8 @@
 }
 
 #editor.dragover {
-    outline: 2px dashed oklch(var(--p));
-    background-color: oklch(var(--b2));
+    outline: 2px dashed #2563eb;
+    background-color: #f1f5f9;
 }
 
 .ProseMirror p {
@@ -115,7 +115,7 @@
 }
 
 .ProseMirror img.ProseMirror-selectednode {
-    outline: 3px solid oklch(var(--p));
+    outline: 3px solid #2563eb;
     outline-offset: 4px;
 }
 

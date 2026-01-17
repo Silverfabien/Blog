@@ -112,7 +112,7 @@ final class ArticleController extends AbstractController
         }
 
         if ($session->has('id')) {
-            $user = $this->userRepository->findOneBy(['id' => $session->get('id')]);
+            $user = $this->userRepository->findOneBy(['userApiId' => $session->get('id')]);
 
             $comment = new Comment();
             $form = $this->createForm(CommentType::class, $comment);
@@ -200,7 +200,7 @@ final class ArticleController extends AbstractController
         Article $article
     ): bool {
         $userId = $session->get('id');
-        $user = $this->userRepository->findOneBy(['id' => $userId]);
+        $user = $this->userRepository->findOneBy(['userApiId' => $userId]);
 
         $isAuthor = $this->isAuthorized($request, "ROLE_AUTHOR");
         $isOwner = ($user->getId() === $article->getAuthor()->getId());

@@ -60,7 +60,6 @@
     margin: 2rem 0;
 }
 
-/* Alignements hérités de l’éditeur */
 .article-content img.img-align-left {
     margin-left: 0;
     margin-right: auto;
@@ -112,6 +111,13 @@
     border: none;
     border-top: 1px solid #e5e7eb;
     margin: 3rem 0;
+}
+
+.tiptap-separator {
+    width: 1px;
+    height: 1.5rem;
+    margin-top: 5px;
+    background-color: black;
 }
 
 #comment-toolbar button {

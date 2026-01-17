@@ -23,7 +23,7 @@ readonly class ArticleControllerHandler
     ): bool
     {
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $this->userRepository->findOneBy(['id' => $session->get('id')]);
+            $user = $this->userRepository->findOneBy(['userApiId' => $session->get('id')]);
             if ($article->isPublish()) {
                 $article->setPublishAt(new DateTimeImmutable());
             }
@@ -45,7 +45,7 @@ readonly class ArticleControllerHandler
     ): bool
     {
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $this->userRepository->findOneBy(['id' => $session->get('id')]);
+            $user = $this->userRepository->findOneBy(['userApiId' => $session->get('id')]);
 
             $article->setAuthorEdit($user);
             $article->setUpdatedAt(new DateTimeImmutable());

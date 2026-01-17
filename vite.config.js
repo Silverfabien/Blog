@@ -24,6 +24,15 @@ export default defineConfig({
                 article_editor: "./assets/styles/js/article/article_editor.js",
                 comment_editor: "./assets/styles/js/article/comment_editor.js"
             },
+            output: {
+                assetFileNames: (assetInfo) => {
+                    if (assetInfo.name && assetInfo.name.includes('fa-')) {
+                        return 'webfonts/[name][extname]'
+                    }
+
+                    return 'assets/[name]-[hash][extname]'
+                }
+            }
         },
     },
     resolve: {

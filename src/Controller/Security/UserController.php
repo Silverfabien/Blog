@@ -25,7 +25,7 @@ final class UserController extends AbstractController
         $userInfo = $this->decodeJwt($request);
 
         if ($userInfo === []) {
-            return $this->redirectToRoute('login');
+            return $this->redirectToRoute('default');
         }
 
         $userDto = UserEditDTO::fromJwtData($userInfo);
@@ -33,7 +33,7 @@ final class UserController extends AbstractController
         $userForm = $this->createForm(UserEditType::class, $userDto)->handleRequest($request);
         $resetPasswordForm = $this->createForm(ResetPasswordType::class)->handleRequest($request);
 
-        $user = $this->userRepository->findOneBy(['id' => $userInfo['user']['id']]);
+        $user = $this->userRepository->findOneBy(['userApiId' => $userInfo['user']['id']]);
 
         return $this->render('security/account.html.twig', [
             'userForm' => $userForm->createView(),
