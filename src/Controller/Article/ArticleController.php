@@ -118,6 +118,8 @@ final class ArticleController extends AbstractController
             $form = $this->createForm(CommentType::class, $comment);
         }
 
+        $this->articleControllerHandler->see($article);
+
         $suggestedArticles = $this->articleRepository->findSuggested(3, $article->getId());
 
         $page = $request->query->getInt('page', 1);

@@ -31,7 +31,6 @@
     </div>
 </dialog>
 
-{# Modale d'Inscription #}
 <dialog id="register_modal" class="modal">
     <div class="modal-box max-w-md bg-base-100 border border-base-300 shadow-2xl">
         <form method="dialog">
@@ -52,7 +51,6 @@
             <label class="label-text font-bold text-xs uppercase opacity-70 ml-1">Email</label>
             {{ form_widget(registerForm.email, {'attr': {'class': 'input input-bordered focus:input-secondary w-full'}}) }}
         </div>
-        {# Password repeated #}
         <div class="flex flex-col gap-1">
             <label class="label-text font-bold text-xs uppercase opacity-70 ml-1">Mot de passe</label>
             {{ form_widget(registerForm.password.first, {'attr': {'class': 'input input-bordered focus:input-secondary w-full'}}) }}
@@ -60,6 +58,21 @@
         <div class="flex flex-col gap-1">
             <label class="label-text font-bold text-xs uppercase opacity-70 ml-1">Confirmer le mot de passe</label>
             {{ form_widget(registerForm.password.second, {'attr': {'class': 'input input-bordered focus:input-secondary w-full'}}) }}
+        </div>
+        <div class="flex flex-col gap-1">
+            <label class="label-text font-bold text-xs uppercase opacity-70 ml-1">
+                Photo de profil
+            </label>
+
+            {{ form_widget(registerForm.picture, {
+                'attr': {
+                    'class': 'file-input file-input-bordered w-full focus:file-input-secondary'
+                }
+            }) }}
+
+            <span class="text-xs opacity-50 italic ml-1">
+                JPG, PNG ou WEBP – 2 Mo max
+            </span>
         </div>
 
         <div id="result" class="text-xs font-bold text-center italic mt-2"></div>

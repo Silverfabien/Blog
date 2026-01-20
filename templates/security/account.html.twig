@@ -22,7 +22,7 @@
                         </turbo-frame>
                     </aside>
 
-                <div class="lg:col-span-8 space-y-8">
+                <div class="lg:col-span-8 space-y-8" id="">
                     <div class="card bg-base-100 shadow-xl border border-base-300">
                         <div class="card-body p-8">
                             <h3 class="text-xl font-bold mb-8 flex items-center gap-2 text-primary">
@@ -39,12 +39,19 @@
                                 {{ form_widget(userForm.email, {'attr': {'class': 'input input-bordered focus:input-primary bg-base-100 w-full'}}) }}
                             </div>
                             <div class="flex flex-col gap-2">
-                                <label class="font-bold opacity-70 text-xs uppercase ml-1">Prénom</label>
-                                {{ form_widget(userForm.firstname, {'attr': {'class': 'input input-bordered focus:input-primary bg-base-100 w-full'}}) }}
-                            </div>
-                            <div class="flex flex-col gap-2">
-                                <label class="font-bold opacity-70 text-xs uppercase ml-1">Nom de famille</label>
-                                {{ form_widget(userForm.lastname, {'attr': {'class': 'input input-bordered focus:input-primary bg-base-100 w-full'}}) }}
+                                <label class="font-bold opacity-70 text-xs uppercase ml-1">
+                                    Photo de profil
+                                </label>
+
+                                {{ form_widget(userForm.picture, {
+                                    'attr': {
+                                        'class': 'file-input file-input-bordered w-full focus:file-input-secondary'
+                                    }
+                                }) }}
+
+                                <span class="text-xs opacity-50 italic ml-1">
+                                    JPG, PNG ou WEBP – 2 Mo max
+                                </span>
                             </div>
 
                             <div class="col-span-full mt-4 flex items-center justify-between border-t border-base-200 pt-6">
@@ -87,4 +94,5 @@
 {% block javascripts %}
     {{ parent() }}
     {{ vite_entry_script_tags('user') }}
+    {{ vite_entry_script_tags('avatar') }}
 {% endblock %}

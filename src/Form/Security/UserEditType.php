@@ -5,9 +5,11 @@ namespace App\Form\Security;
 use App\DTO\Security\UserEditDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class UserEditType extends AbstractType
 {
@@ -22,13 +24,21 @@ class UserEditType extends AbstractType
                 'label' => "Votre email",
                 'required' => true
             ])
-            ->add('firstname', TextType::class, [
-                'label' => "Votre prénom",
-                'required' => true
-            ])
-            ->add('lastname', TextType::class, [
-                'label' => "Votre nom",
-                'required' => true
+            ->add('picture', FileType::class, [
+                'label' => "Image de profil",
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File(
+                        maxSize: '2M',
+                        mimeTypes: [
+                            'image/jpeg',
+                            'image/png',
+                            'image/webp'
+                        ],
+                        mimeTypesMessage: "Format d'image invalide"
+                    )
+                ]
             ])
         ;
     }

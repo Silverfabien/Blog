@@ -22,7 +22,8 @@ export default defineConfig({
                 user: "./assets/styles/js/security/user.js",
                 navbar: "./assets/styles/js/layouts/navbar.js",
                 article_editor: "./assets/styles/js/article/article_editor.js",
-                comment_editor: "./assets/styles/js/article/comment_editor.js"
+                comment_editor: "./assets/styles/js/article/comment_editor.js",
+                avatar: "./assets/styles/js/avatar/avatar.js",
             },
             output: {
                 assetFileNames: (assetInfo) => {

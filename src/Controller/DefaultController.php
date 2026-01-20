@@ -33,7 +33,6 @@ final class DefaultController extends AbstractController
 
         if ($user) {
             $contact->setEmail($user['user']['email']);
-            $contact->setName($user['otherData']['lastname'].' '.$user['otherData']['firstname']);
         }
 
         $form = $this->createForm(ContactType::class, $contact, )->handleRequest($request);

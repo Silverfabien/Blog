@@ -1,6 +1,6 @@
 <turbo-frame id="comment-frame-{{ comment.id }}" class="block w-full">
     <div class="flex gap-4 group">
-        <div class="avatar placeholder shrink-0">
+        <div class="avatar placeholder shrink-0" data-user-id="{{ comment.author.userApiId }}" data-avatar-size="small">
             <div class="bg-linear-to-br from-primary to-secondary text-primary-content rounded-2xl w-12 h-12 shadow-md group-hover:scale-105 transition-transform">
                 <span class="text-lg font-bold">{{ comment.author.username|first|upper }}</span>
             </div>

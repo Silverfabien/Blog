@@ -64,4 +64,13 @@ readonly class ArticleControllerHandler
 
         return true;
     }
+
+    public function see(Article $article): bool
+    {
+        $article->setSee($article->getSee() + 1);
+
+        $this->articleRepository->update($article);
+
+        return true;
+    }
 }
