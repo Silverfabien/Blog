@@ -1,6 +1,7 @@
 export default {
     content: [
         './assets/**/*.js',
+        './assets/**/*.css',
         './templates/**/*.html.twig'
     ],
     theme: {

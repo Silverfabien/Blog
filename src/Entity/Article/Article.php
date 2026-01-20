@@ -69,12 +69,23 @@ class Article
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'article', orphanRemoval: true)]
     private Collection $comments;
 
+    /**
+     * @var Collection<int, ArticleLike>
+     */
+    #[ORM\OneToMany(targetEntity: ArticleLike::class, mappedBy: 'article', orphanRemoval: true)]
+    private Collection $articleLikes;
+
+    #[ORM\Column]
+    private ?int $likeCount = null;
+
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
         $this->publish = false;
         $this->see = 0;
         $this->comments = new ArrayCollection();
+        $this->articleLikes = new ArrayCollection();
+        $this->likeCount = 0;
     }
 
     public function getId(): ?int
@@ -268,6 +279,48 @@ class Article
                 $comment->setArticle(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ArticleLike>
+     */
+    public function getArticleLikes(): Collection
+    {
+        return $this->articleLikes;
+    }
+
+    public function addArticleLike(ArticleLike $articleLike): static
+    {
+        if (!$this->articleLikes->contains($articleLike)) {
+            $this->articleLikes->add($articleLike);
+            $articleLike->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticleLike(ArticleLike $articleLike): static
+    {
+        if ($this->articleLikes->removeElement($articleLike)) {
+            // set the owning side to null (unless already changed)
+            if ($articleLike->getArticle() === $this) {
+                $articleLike->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getLikeCount(): ?int
+    {
+        return $this->likeCount;
+    }
+
+    public function setLikeCount(int $likeCount): static
+    {
+        $this->likeCount = $likeCount;
 
         return $this;
     }

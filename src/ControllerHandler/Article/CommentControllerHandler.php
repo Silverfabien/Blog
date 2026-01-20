@@ -26,7 +26,7 @@ readonly class CommentControllerHandler
     ): bool
     {
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $this->userRepository->findOneBy(['id' => $session->get('id')]);
+            $user = $this->userRepository->findOneBy(['userApiId' => $session->get('id')]);
 
             $comment->setAuthor($user);
             $comment->setArticle($article);

@@ -32,6 +32,30 @@ export function handleForm(formId, apiUrl, fields, extras = {}) {
             data: JSON.stringify(data),
             xhrFields: { withCredentials: true },
             success: function (response) {
+                const fileInput = document.querySelector(
+                    `${formId} input[type="file"]`
+                );
+
+                if (fileInput && fileInput.files.length > 0) {
+                    const formData = new FormData();
+                    formData.append('picture', fileInput.files[0]);
+
+                    fetch(
+                        import.meta.env.VITE_API_URL + '/user/avatar',
+                        {
+                            method: 'POST',
+                            body: formData,
+                            credentials: "include"
+                        }
+                    ).finally(() => {
+                        if (formId === '#user-edit') {
+                            Turbo.visit(window.location.pathname, {
+                                frame: 'account-profil',
+                            });
+                        }
+                    });
+                }
+
                 if (apiUrl.endsWith('/login_check')) {
                     window.location.href = '/';
                 } else {

@@ -1,6 +1,6 @@
 <turbo-frame id="comment-frame-{{ comment.id }}" class="block w-full">
     <div class="flex gap-4 group">
-        <div class="avatar placeholder shrink-0">
+        <div class="avatar placeholder shrink-0" data-user-id="{{ comment.author.userApiId }}" data-avatar-size="small">
             <div class="bg-linear-to-br from-primary to-secondary text-primary-content rounded-2xl w-12 h-12 shadow-md group-hover:scale-105 transition-transform">
                 <span class="text-lg font-bold">{{ comment.author.username|first|upper }}</span>
             </div>
@@ -22,7 +22,7 @@
                                     </a>
                                 {% endif %}
 
-                                {% if (app.session.get('id') == comment.author.id or is_granted('ROLE_ADMIN')) %}
+                                {% if (app.session.get('id') == comment.author.id) or app.session.get('role') == "ROLE_ADMIN" %}
                                     {{ include('article/comment/_delete_form.html.twig') }}
                                 {% endif %}
                             </div>
@@ -32,6 +32,13 @@
                 <p class="text-base-content/80 text-sm leading-relaxed">
                     {{ comment.content|raw }}
                 </p>
+                {% if comment.author.signature %}
+                    <div class="mt-3 pt-2 border-t border-base-300/50">
+                        <p class="text-xs italic text-base-content/50 leading-snug line-clamp-2">
+                            {{ comment.author.signature }}
+                        </p>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>

@@ -35,7 +35,7 @@ final class CommentController extends AbstractController
 
         if ($this->commentControllerHandler->new($form, $comment, $article, $session)) {
             $userId = $session->get('id');
-            $user = $this->userRepository->findOneBy(['id' => $userId]);
+            $user = $this->userRepository->findOneBy(['userApiId' => $userId]);
 
             if ($request->getPreferredFormat() === 'turbo_stream') {
                 $emptyForm = $this->createForm(CommentType::class, new Comment());
@@ -74,7 +74,7 @@ final class CommentController extends AbstractController
         if ($this->commentControllerHandler->edit($form, $comment)) {
             return $this->render('article/comment/_comment.html.twig', [
                 'comment' => $comment,
-                'user' => $this->userRepository->findOneBy(['id' => $session->get('id')])
+                'user' => $this->userRepository->findOneBy(['userApiId' => $session->get('id')])
             ]);
         }
 
@@ -132,7 +132,7 @@ final class CommentController extends AbstractController
         Comment $comment
     ): bool {
         $userId = $session->get('id');
-        $user = $this->userRepository->findOneBy(['id' => $userId]);
+        $user = $this->userRepository->findOneBy(['userApiId' => $userId]);
 
         $isAuthor = $this->isAuthorized($request, "ROLE_AUTHOR");
         $isOwner = ($user->getId() === $comment->getAuthor()->getId());
