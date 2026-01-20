@@ -100,7 +100,9 @@
                             </div>
                             <h3 class="text-xl font-bold">{{ article.author.username }}</h3>
                             <div class="badge badge-ghost text-xs opacity-60 mb-4 italic">Auteur de l'article</div>
-                            <p class="text-sm opacity-70 mb-6">{{ article.author.signature }}</p>
+                            {% if article.author.signature %}
+                                <p class="text-sm opacity-70 mb-6">{{ article.author.signature }}</p>
+                            {% endif %}
                             <button class="btn btn-primary btn-sm btn-outline w-full">Voir son profil</button>
                         </div>
                     </div>
