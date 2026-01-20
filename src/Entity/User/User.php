@@ -3,6 +3,7 @@
 namespace App\Entity\User;
 
 use App\Entity\Article\Article;
+use App\Entity\Article\ArticleLike;
 use App\Entity\Article\Comment;
 use App\Repository\User\UserRepository;
 use DateTimeImmutable;
@@ -51,6 +52,15 @@ class User
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[ORM\Column(length: 150, nullable: true)]
+    private ?string $signature = null;
+
+    /**
+     * @var Collection<int, ArticleLike>
+     */
+    #[ORM\OneToMany(targetEntity: ArticleLike::class, mappedBy: 'user', orphanRemoval: true)]
+    private Collection $articleLikes;
+
     public function __construct()
     {
         $this->role = 'ROLE_USER';
@@ -58,6 +68,7 @@ class User
         $this->articleAuthorEdit = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->createdAt = new DateTimeImmutable();
+        $this->articleLikes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -211,6 +222,48 @@ class User
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getSignature(): ?string
+    {
+        return $this->signature;
+    }
+
+    public function setSignature(?string $signature): static
+    {
+        $this->signature = $signature;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ArticleLike>
+     */
+    public function getArticleLikes(): Collection
+    {
+        return $this->articleLikes;
+    }
+
+    public function addArticleLike(ArticleLike $articleLike): static
+    {
+        if (!$this->articleLikes->contains($articleLike)) {
+            $this->articleLikes->add($articleLike);
+            $articleLike->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticleLike(ArticleLike $articleLike): static
+    {
+        if ($this->articleLikes->removeElement($articleLike)) {
+            // set the owning side to null (unless already changed)
+            if ($articleLike->getUser() === $this) {
+                $articleLike->setUser(null);
+            }
+        }
 
         return $this;
     }

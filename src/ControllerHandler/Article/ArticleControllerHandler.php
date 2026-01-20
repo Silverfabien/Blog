@@ -3,6 +3,9 @@
 namespace App\ControllerHandler\Article;
 
 use App\Entity\Article\Article;
+use App\Entity\Article\ArticleLike;
+use App\Entity\User\User;
+use App\Repository\Article\ArticleLikeRepository;
 use App\Repository\Article\ArticleRepository;
 use App\Repository\User\UserRepository;
 use DateTimeImmutable;
@@ -13,7 +16,8 @@ readonly class ArticleControllerHandler
 {
     public function __construct(
         private ArticleRepository $articleRepository,
-        private UserRepository $userRepository
+        private UserRepository $userRepository,
+        private ArticleLikeRepository $articleLikeRepository
     ) {}
 
     public function new(
@@ -70,6 +74,29 @@ readonly class ArticleControllerHandler
         $article->setSee($article->getSee() + 1);
 
         $this->articleRepository->update($article);
+
+        return true;
+    }
+
+    public function like(User $user, Article $article, ArticleLike $articleLike): bool
+    {
+        $article->setLikeCount($article->getLikeCount() + 1);
+        $this->articleRepository->update($article);
+
+        $articleLike->setUser($user);
+        $articleLike->setArticle($article);
+
+        $this->articleLikeRepository->create($articleLike);
+
+        return true;
+    }
+
+    public function unlike(Article $article, ArticleLike $articleLike): bool
+    {
+        $article->setLikeCount($article->getLikeCount() - 1);
+        $this->articleRepository->update($article);
+
+        $this->articleLikeRepository->remove($articleLike);
 
         return true;
     }

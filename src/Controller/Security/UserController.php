@@ -2,8 +2,10 @@
 
 namespace App\Controller\Security;
 
+use App\ControllerHandler\Security\UserControllerHandler;
 use App\DTO\Security\UserEditDTO;
 use App\Form\Security\ResetPasswordType;
+use App\Form\Security\SignatureType;
 use App\Form\Security\UserEditType;
 use App\Repository\User\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,7 +18,8 @@ final class UserController extends AbstractController
 {
     public function __construct(
         private readonly ParameterBagInterface $params,
-        private readonly UserRepository $userRepository
+        private readonly UserRepository $userRepository,
+        private readonly UserControllerHandler $userControllerHandler
     ){}
 
     #[Route('/account', name: 'account')]
@@ -29,15 +32,20 @@ final class UserController extends AbstractController
         }
 
         $userDto = UserEditDTO::fromJwtData($userInfo);
+        $user = $this->userRepository->findOneBy(['userApiId' => $userInfo['user']['id']]);
 
         $userForm = $this->createForm(UserEditType::class, $userDto)->handleRequest($request);
         $resetPasswordForm = $this->createForm(ResetPasswordType::class)->handleRequest($request);
+        $signatureForm = $this->createForm(SignatureType::class, $user)->handleRequest($request);
 
-        $user = $this->userRepository->findOneBy(['userApiId' => $userInfo['user']['id']]);
+        if ($this->userControllerHandler->new($signatureForm, $user)) {
+            return $this->redirectToRoute('account');
+        }
 
         return $this->render('security/account.html.twig', [
             'userForm' => $userForm->createView(),
             'resetPasswordForm' => $resetPasswordForm->createView(),
+            'signatureForm' => $signatureForm->createView(),
             'user' => $user,
             'userInfo' => $userInfo['otherData']
         ]);

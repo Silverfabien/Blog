@@ -4,9 +4,11 @@ namespace App\Controller\Article;
 
 use App\ControllerHandler\Article\ArticleControllerHandler;
 use App\Entity\Article\Article;
+use App\Entity\Article\ArticleLike;
 use App\Entity\Article\Comment;
 use App\Form\Article\ArticleType;
 use App\Form\Article\CommentType;
+use App\Repository\Article\ArticleLikeRepository;
 use App\Repository\Article\ArticleRepository;
 use App\Repository\Article\CommentRepository;
 use App\Repository\User\UserRepository;
@@ -26,7 +28,8 @@ final class ArticleController extends AbstractController
         private readonly PermissionChecker $permissionChecker,
         private readonly UserRepository $userRepository,
         private readonly ArticleRepository $articleRepository,
-        private readonly CommentRepository $commentRepository
+        private readonly CommentRepository $commentRepository,
+        private readonly ArticleLikeRepository $articleLikeRepository
     ) {}
 
     #[Route(name: 'index')]
@@ -111,8 +114,11 @@ final class ArticleController extends AbstractController
             return $this->redirectToRoute('article_index');
         }
 
+        $isLiked = false;
+
         if ($session->has('id')) {
             $user = $this->userRepository->findOneBy(['userApiId' => $session->get('id')]);
+            $isLiked = $this->articleLikeRepository->findOneBy(['article' => $article, 'user' => $user]);
 
             $comment = new Comment();
             $form = $this->createForm(CommentType::class, $comment);
@@ -144,7 +150,8 @@ final class ArticleController extends AbstractController
             'suggestedArticles' => $suggestedArticles,
             'comments' => $comments,
             'hasNextPage' => $hasNextPage,
-            'page' => $page
+            'page' => $page,
+            'isLiked' => $isLiked
         ]);
     }
 
@@ -182,6 +189,35 @@ final class ArticleController extends AbstractController
             'url' => '/uploads/pictures/articles/content/' . $filename,
         ]);
     }
+
+    #[Route('/{id}/like', name: 'like', methods: ['POST'])]
+    public function articleLike(SessionInterface $session, Article $article): JsonResponse
+    {
+        if (!$session->has('id')) {
+            return new JsonResponse(['error' => 'Non autorisé.'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $user = $this->userRepository->findOneBy(['userApiId' => $session->get('id')]);
+        $articleById = $this->articleLikeRepository->findOneBy(['article' => $article, 'user' => $user]);
+
+        if ($articleById) {
+            $this->articleControllerHandler->unlike($article, $articleById);
+
+            return new JsonResponse([
+                'count' => $article->getLikeCount()
+            ]);
+        }
+
+        $articleLike = new ArticleLike();
+
+        $this->articleControllerHandler->like($user, $article, $articleLike);
+
+        return new JsonResponse([
+            'count' => $article->getLikeCount()
+        ]);
+    }
+
+    // PRIVATE FUNCTION
 
     private function isAuthorized(Request $request, string $attempt): bool
     {

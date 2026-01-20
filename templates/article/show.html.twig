@@ -31,18 +31,29 @@
                         <div class="divider mt-12"></div>
 
                         <div class="flex flex-wrap items-center justify-between gap-4">
-                            <div class="flex items-center gap-4">
-                                <button class="btn btn-outline btn-primary rounded-full px-6 group transition-all hover:scale-105">
-                                    <i class="far fa-heart group-hover:fas transition-all"></i>
-                                    <span class="font-bold">J'aime</span>
-                                    <div class="badge badge-primary badge-sm ml-2 font-mono">0</div>
-                                </button>
+                            {% if app.session.get('id') %}
+                                <div class="flex items-center gap-4">
+                                    <button
+                                        class="btn btn-outline btn-primary rounded-full px-6 group transition-all hover:scale-105"
+                                        data-like-button
+                                        data-article-id="{{ article.id }}"
+                                    >
+                                        <i class="{{ isLiked ? 'fas fa-heart text-error' : 'far fa-heart' }} transition-all"></i>
+                                        <span class="font-bold">J'aime</span>
+                                        <div
+                                            class="badge badge-primary badge-sm ml-2 font-mono"
+                                            data-like-count
+                                        >
+                                            {{ article.likeCount }}
+                                        </div>
+                                    </button>
 
-                                <span class="text-xs opacity-40 italic hidden md:block">
-                            </span>
-                            </div>
+                                    <span class="text-xs opacity-40 italic hidden md:block">
+                                </span>
+                                </div>
+                            {% endif %}
 
-                            <a href="{{ path('default') }}" class="btn btn-ghost btn-sm gap-2">
+                            <a href="{{ path('default') }}" class="btn btn-ghost btn-sm gap-2 ">
                                 <i class="fas fa-chevron-left text-xs"></i>
                                 Retour à l'accueil
                             </a>
@@ -82,16 +93,14 @@
                     <div class="card bg-base-100 shadow-xl border border-base-300 overflow-hidden">
                         <div class="h-20 bg-linear-to-r from-primary to-secondary"></div>
                         <div class="px-6 pb-6 text-center">
-                            <div class="avatar placeholder -mt-10 mb-4">
+                            <div class="avatar placeholder -mt-10 mb-4" data-user-id="{{ article.author.userApiId }}">
                                 <div class="bg-neutral text-neutral-content rounded-full w-20 h-20 ring ring-base-100 ring-offset-2">
                                     <span class="text-2xl">{{ article.author.username|first|upper }}</span>
                                 </div>
                             </div>
                             <h3 class="text-xl font-bold">{{ article.author.username }}</h3>
                             <div class="badge badge-ghost text-xs opacity-60 mb-4 italic">Auteur de l'article</div>
-                            <p class="text-sm opacity-70 mb-6">
-                                Passionné par l'IA et les nouvelles technologies. Partage ses découvertes quotidiennement.
-                            </p>
+                            <p class="text-sm opacity-70 mb-6">{{ article.author.signature }}</p>
                             <button class="btn btn-primary btn-sm btn-outline w-full">Voir son profil</button>
                         </div>
                     </div>
@@ -129,4 +138,5 @@
     {{ parent() }}
     {{ vite_entry_script_tags('comment_editor') }}
     {{ vite_entry_script_tags('avatar') }}
+    {{ vite_entry_script_tags('article_like') }}
 {% endblock %}
