@@ -134,6 +134,27 @@
             </div>
         </div>
     </main>
+
+    <dialog id="image_modal" class="modal">
+        <div class="modal-box max-w-5xl p-0 bg-transparent shadow-none overflow-hidden">
+            <div
+                id="zoom-container"
+                class="relative w-full h-[85vh] overflow-hidden bg-black/80 flex items-center justify-center"
+            >
+                <img
+                    id="modal-image"
+                    src=""
+                    alt=""
+                    class="select-none"
+                    draggable="false"
+                />
+            </div>
+        </div>
+
+        <form method="dialog" class="modal-backdrop">
+            <button>close</button>
+        </form>
+    </dialog>
 {% endblock %}
 
 {% block javascripts %}
@@ -141,4 +162,5 @@
     {{ vite_entry_script_tags('comment_editor') }}
     {{ vite_entry_script_tags('avatar') }}
     {{ vite_entry_script_tags('article_like') }}
+    {{ vite_entry_script_tags('article_image') }}
 {% endblock %}

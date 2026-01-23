@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Maintenance</title>
+    <link rel="stylesheet" href="/maintenance/maintenance.css">
+</head>
+
+<body>
+<div class="container">
+    <div class="card" role="status" aria-live="polite">
+        <div class="glow"></div>
+
+        <div class="icon">🚧</div>
+
+        <h1>Maintenance en cours</h1>
+        <p>
+            Le site "BlogIA" est momentanément indisponible.
+            <br />
+            Nous faisons le nécessaire pour rétablir l’accès dès que possible.
+        </p>
+
+        <div class="badge">⏳ Retour imminent</div>
+
+        <div class="progress" aria-hidden="true">
+            <div class="bar"></div>
+        </div>
+
+        <div class="actions">
+            <a class="btn orange" href="/public" onclick="location.reload(); return false;">
+                🔄 Actualiser
+            </a>
+        </div>
+
+        <div class="footer">
+            HTTP 503 — Service indisponible temporairement
+        </div>
+    </div>
+</div>
+</body>
+</html>
