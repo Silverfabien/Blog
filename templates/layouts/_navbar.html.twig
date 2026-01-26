@@ -35,7 +35,7 @@
             <li><a href="{{ path('default') }}" class="block p-2">Accueil</a></li>
             <li><a href="{{ path('article_index') }}" class="block p-2">Article</a></li>
             {% if app.session %}
-                <li><a href="#" class="block p-2">Profil</a></li>
+                <li><a href="{{ path('account') }}" class="block p-2">Profil</a></li>
                 <li><a href="{{ path('logout') }}" class="block p-2">Déconnexion</a></li>
             {% else %}
                 <button onclick="login_modal.showModal()" class="text-white hover:text-primary transition-colors cursor-pointer">Connexion</button>

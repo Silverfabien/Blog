@@ -54,4 +54,12 @@ final class SecurityController extends AbstractController
 
         return new Response('Session détruite.', Response::HTTP_OK);
     }
+
+    #[Route('/account/confirm/{token}', name: 'confirmation_account')]
+    public function confirmationAccount(string $token): Response
+    {
+        return $this->render('security/confirmation_account.html.twig', [
+            'token' => $token
+        ]);
+    }
 }

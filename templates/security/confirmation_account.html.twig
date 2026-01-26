@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <main class="bg-base-200 min-h-screen">
+        <!-- HERO -->
+        <div class="hero min-h-[50vh] bg-linear-to-br from-primary to-secondary text-primary-content">
+            <div class="hero-overlay bg-opacity-20"></div>
+            <div class="hero-content text-center text-neutral-content pt-10">
+                <div class="max-w-2xl">
+                    <h1 class="mb-6 text-4xl md:text-6xl font-bold">
+                        Validation du compte
+                    </h1>
+                    <p class="mb-6 text-lg md:text-xl font-light opacity-90">
+                        Nous vérifions votre lien de validation et activons votre compte.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTENU -->
+        <section class="py-20">
+            <div class="container mx-auto px-4 max-w-3xl">
+                <div class="card bg-base-100 shadow-2xl border border-base-300 overflow-hidden">
+
+                    <div class="card-body p-10 text-center"
+                         id="validate-account"
+                         data-token="{{ token }}">
+
+                        <div class="flex justify-center mb-6">
+                            <span class="loading loading-spinner loading-lg text-primary" id="loader"></span>
+                        </div>
+
+                        <h2 class="text-2xl font-bold mb-2" id="title">
+                            Validation en cours...
+                        </h2>
+
+                        <p class="text-base-content/70 mb-6" id="message">
+                            Merci de patienter pendant l’activation de votre compte.
+                        </p>
+
+                        <div class="flex flex-col md:flex-row gap-3 justify-center">
+                            <button class="btn btn-secondary hidden" id="btn-resend">
+                                Renvoyer un email
+                            </button>
+                        </div>
+
+                        <p class="text-xs opacity-50 mt-8" id="debug"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ vite_entry_script_tags('confirmation_account') }}
+{% endblock %}
