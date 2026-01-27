@@ -28,6 +28,10 @@
             Pas encore de compte ?
             <button onclick="login_modal.close(); register_modal.showModal()" class="text-primary font-bold hover:underline">Inscrivez-vous</button>
         </div>
+        <div class="text-center mt-6 text-sm">
+            Vous avez oublié votre mot de passe ?
+            <button onclick="login_modal.close(); forgot_password_modal.showModal()" class="text-secondary font-bold hover:underline">Modifier mon mot de passe</button>
+        </div>
     </div>
 </dialog>
 
@@ -84,6 +88,74 @@
             Déjà inscrit ?
             <button onclick="register_modal.close(); login_modal.showModal()" class="text-secondary font-bold hover:underline">Connectez-vous</button>
         </div>
+        <div class="text-center mt-6 text-sm">
+            Vous avez oublié votre mot de passe ?
+            <button onclick="register_modal.close(); forgot_password_modal.showModal()" class="text-secondary font-bold hover:underline">Modifier mon mot de passe</button>
+        </div>
+    </div>
+</dialog>
+
+<dialog id="forgot_password_modal" class="modal">
+    <div class="modal-box max-w-md bg-base-100 border border-base-300 shadow-2xl">
+        <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        </form>
+
+        <div class="text-center mb-8">
+            <h3 class="font-extrabold text-3xl text-primary">Oublie de mot de passe</h3>
+            <p class="py-2 text-sm opacity-60 italic">Pas de panique, on va vous aider à changer votre mot de passe</p>
+        </div>
+
+        {{ form_start(forgotPasswordForm, {'attr': {'id': 'forgot-password-form', 'class': 'flex flex-col gap-4'}}) }}
+        <div class="flex flex-col gap-1">
+            <label class="label-text font-bold text-xs uppercase opacity-70 ml-1">Email</label>
+            {{ form_widget(forgotPasswordForm.email, {'attr': {'class': 'input input-bordered focus:input-primary w-full'}}) }}
+        </div>
+
+        <div id="result" class="text-xs font-bold text-center italic mt-2"></div>
+
+        <button type="submit" class="btn btn-primary w-full mt-4">Envoyer</button>
+        {{ form_end(forgotPasswordForm) }}
+
+        <div class="text-center mt-6 text-sm">
+            Pas encore de compte ?
+            <button onclick="forgot_password_modal.close(); register_modal.showModal()" class="text-primary font-bold hover:underline">Inscrivez-vous</button>
+        </div>
+        <div class="text-center mt-6 text-sm">
+            Déjà inscrit ?
+            <button onclick="forgot_password_modal.close(); login_modal.showModal()" class="text-secondary font-bold hover:underline">Connectez-vous</button>
+        </div>
+    </div>
+</dialog>
+
+<dialog id="reset_password_modal" class="modal">
+    <div class="modal-box max-w-md bg-base-100 border border-base-300 shadow-2xl">
+        <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        </form>
+
+        <div class="text-center mb-8">
+            <h3 class="font-extrabold text-3xl text-primary">Nouveau mot de passe</h3>
+            <p class="py-2 text-sm opacity-60 italic">Choisissez un nouveau mot de passe</p>
+        </div>
+
+        {{ form_start(resetForgotPasswordForm, {'attr': {'id': 'reset-forgot-password-form', 'class': 'flex flex-col gap-4'}}) }}
+        <div class="flex flex-col gap-1">
+            <label class="label-text font-bold text-xs uppercase opacity-70 ml-1">Nouveau mot de passe</label>
+            {{ form_widget(resetForgotPasswordForm.password.first, {'attr': {'class': 'input input-bordered focus:input-primary w-full'}}) }}
+        </div>
+
+        <div class="flex flex-col gap-1">
+            <label class="label-text font-bold text-xs uppercase opacity-70 ml-1">Confirmer</label>
+            {{ form_widget(resetForgotPasswordForm.password.second, {'attr': {'class': 'input input-bordered focus:input-primary w-full'}}) }}
+        </div>
+
+        <div id="result" class="text-xs font-bold text-center italic mt-2"></div>
+
+        <button type="submit" class="btn btn-primary w-full mt-4">
+            Modifier mon mot de passe
+        </button>
+        {{ form_end(resetForgotPasswordForm) }}
     </div>
 </dialog>
 

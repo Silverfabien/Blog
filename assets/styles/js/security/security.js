@@ -7,12 +7,21 @@ $(document).ready(function(){
     const resetUrl = baseUrl + resetPath;
     const apiUrl = import.meta.env.VITE_API_URL;
 
-    function getResetTokenFormUrl() {
-        const match = window.location.pathname.match(/\/reset_forgot_password\/([^/?#]+)/);
-        return match ? match[1] : null;
+    function getResetTokenFromQuery() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('resetToken');
     }
 
-    const resetToken = getResetTokenFormUrl();
+    const resetToken = getResetTokenFromQuery();
+
+    if (resetToken) {
+        const modal = document.getElementById('reset_password_modal');
+        if (modal) {
+            modal.showModal();
+            const cleanUrl = window.location.pathname;
+            window.history.replaceState({}, document.title, cleanUrl);
+        }
+    }
 
     handleForm('#login-form', apiUrl+'/login_check', ['email', 'password'], {
         url: baseUrl
@@ -20,6 +29,11 @@ $(document).ready(function(){
     handleForm('#register-form', apiUrl+'/register', ['username', 'email', 'password_first', 'password_second'], {
         url: baseUrl
     });
-    handleForm('#forgot-password-form', apiUrl+'/forgot_password', ['email'], { url: resetUrl });
-    handleForm('#reset-forgot-password-form', apiUrl+`/reset_forgot_password/${resetToken}`, ['password_first']);
+    handleForm('#forgot-password-form', apiUrl+'/forgot_password', ['email'], {
+        url: resetUrl
+    });
+    if (resetToken) {
+        handleForm('#reset-forgot-password-form', apiUrl+`/reset_forgot_password/${resetToken}`, ['password_first', 'password_second']);
+    }
+
 });

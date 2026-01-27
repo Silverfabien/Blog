@@ -2,8 +2,10 @@
 
 namespace App\Controller\Security;
 
+use App\Form\Security\ForgotPasswordType;
 use App\Form\Security\LoginType;
 use App\Form\Security\RegisterType;
+use App\Form\Security\ResetPasswordType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,10 +30,14 @@ final class SecurityController extends AbstractController
     {
         $loginForm = $this->createForm(LoginType::class);
         $registerForm = $this->createForm(RegisterType::class);
+        $forgotPasswordForm = $this->createForm(ForgotPasswordType::class);
+        $resetForgotPasswordForm = $this->createForm(ResetPasswordType::class);
 
         return $this->render('security/_auth_modals.html.twig', [
             'loginForm' => $loginForm->createView(),
             'registerForm' => $registerForm->createView(),
+            'forgotPasswordForm' => $forgotPasswordForm->createView(),
+            'resetForgotPasswordForm' => $resetForgotPasswordForm->createView(),
         ]);
     }
 
