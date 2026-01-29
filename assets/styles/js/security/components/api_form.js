@@ -1,3 +1,5 @@
+import { saveFlashForNextPage } from "./../../components/apiFlash.js";
+
 export function handleForm(formId, apiUrl, fields, extras = {}) {
     $(formId).on('submit', function(e){
         e.preventDefault();
@@ -32,6 +34,12 @@ export function handleForm(formId, apiUrl, fields, extras = {}) {
             data: JSON.stringify(data),
             xhrFields: { withCredentials: true },
             success: function (response) {
+                import('../../components/apiFlash.js').then(({ handleApiFlash, addFlash }) => {
+                    if (!handleApiFlash(response)) {
+                        addFlash('success', 'Opération réussi')
+                    }
+                })
+
                 const fileInput = document.querySelector(
                     `${formId} input[type="file"]`
                 );
@@ -57,6 +65,7 @@ export function handleForm(formId, apiUrl, fields, extras = {}) {
                 }
 
                 if (apiUrl.endsWith('/login_check')) {
+                    saveFlashForNextPage(response.type ?? 'success', response.message ?? 'Connexion réussie.');
                     window.location.href = '/';
                 } else {
                     $(`${formId} ~ #result`).removeClass('text-danger').addClass('text-success').text('Opération réussie.');
@@ -72,6 +81,13 @@ export function handleForm(formId, apiUrl, fields, extras = {}) {
             },
             error: function (xhr) {
                 const response = xhr.responseJSON;
+
+                import('../../components/apiFlash.js').then(({ handleApiFlash, addFlash }) => {
+                    if (!handleApiFlash(response)) {
+                        addFlash('error', 'Une erreur est survenue.');
+                    }
+                })
+
                 if (response && response.errors) {
                     $(`${formId} ~ #result`).removeClass('text-success').addClass('text-danger').text(response.errors[0]);
                 } else {
