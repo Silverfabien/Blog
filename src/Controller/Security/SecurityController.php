@@ -7,6 +7,7 @@ use App\Form\Security\LoginType;
 use App\Form\Security\RegisterType;
 use App\Form\Security\ResetPasswordType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -54,11 +55,13 @@ final class SecurityController extends AbstractController
     }
 
     #[Route('/logout-session', name: 'logout_session', methods: ['POST'])]
-    public function logoutSession(SessionInterface $session): Response
+    public function logoutSession(SessionInterface $session): JsonResponse
     {
         $session->invalidate();
 
-        return new Response('Session détruite.', Response::HTTP_OK);
+        $this->addFlash('success', 'Déconnexion réussie.');
+
+        return new JsonResponse('Session détruite.', Response::HTTP_OK);
     }
 
     #[Route('/account/confirm/{token}', name: 'confirmation_account')]
