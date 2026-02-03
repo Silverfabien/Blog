@@ -27,10 +27,10 @@
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="{{ path('admin_article_index') }}"
+                   class="{{ app.request.attributes.get('_route') starts with 'admin_article_' ? 'active' : '' }}">
                     <i class="fa-regular fa-newspaper w-5"></i>
                     Articles
-                    <span class="badge badge-ghost badge-sm ml-auto">Bientôt</span>
                 </a>
             </li>
             <li>

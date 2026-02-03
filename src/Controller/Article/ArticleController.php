@@ -155,20 +155,6 @@ final class ArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}/remove', name: 'delete')]
-    public function delete(Request $request, Article $article, SessionInterface $session): Response
-    {
-        if (!$session->has('id') || !$this->asPermission($session, $request, $article)) {
-            return $this->redirectToRoute('default');
-        }
-
-        if ($this->isCsrfTokenValid('delete'.$article->getSlug(), $request->getPayload()->getString('_token'))) {
-            $this->articleControllerHandler->delete($article);
-        }
-
-        return $this->redirectToRoute('article_index');
-    }
-
     #[Route('/upload/picture', name: 'upload_picture', methods: ['POST'])]
     public function uploadPicture(Request $request): JsonResponse
     {
@@ -230,24 +216,5 @@ final class ArticleController extends AbstractController
         $jwtDecode = json_decode(base64_decode(explode(".", $jwt)[1]), true);
 
         return $this->permissionChecker->isPermissionGranted($jwtDecode, $attempt);
-    }
-
-    private function asPermission(
-        SessionInterface $session,
-        Request $request,
-        Article $article
-    ): bool {
-        $userId = $session->get('id');
-        $user = $this->userRepository->findOneBy(['userApiId' => $userId]);
-
-        $isAuthor = $this->isAuthorized($request, "ROLE_AUTHOR");
-        $isOwner = ($user->getId() === $article->getAuthor()->getId());
-        $isAdmin = $this->isAuthorized($request, "ROLE_ADMIN");
-
-        if (!$isAdmin && (!$isAuthor || !$isOwner)) {
-            return false;
-        }
-
-        return true;
     }
 }

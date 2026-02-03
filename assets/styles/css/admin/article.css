@@ -1,0 +1,45 @@
+.admin-table {
+    background-color: transparent;
+}
+
+.admin-table thead th {
+    background-color: rgba(10, 15, 26, 0.65);
+    color: #cbd5e1;
+}
+
+.admin-table tbody td {
+    color: #e5e7eb;
+}
+
+/* une ligne sur deux, sombre */
+.admin-table tbody tr.admin-row:nth-child(even) td {
+    background-color: rgba(2, 6, 23, 0.35);
+}
+
+/* hover subtil */
+.admin-table tbody tr.admin-row:hover td {
+    background-color: rgba(30, 41, 59, 0.35);
+}
+
+/* Dropdown dans un conteneur scrollable : on force la priorité d'affichage */
+.admin-table-wrap .dropdown-content {
+    z-index: 50;
+}
+
+.admin-table-scroll {
+    overflow-x: auto;
+    overflow-y: visible;
+    position: relative;
+}
+
+/* Conteneur interne: autorise le dropdown à dépasser verticalement */
+.admin-table-inner {
+    overflow: visible;
+    min-width: 900px; /* évite des retours à la ligne qui cassent l'UI; ajuste si tu veux */
+}
+
+/* IMPORTANT: certains styles de table peuvent mettre overflow hidden via héritage */
+.admin-table {
+    overflow: visible;
+}
+
