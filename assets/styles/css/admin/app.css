@@ -1,0 +1,39 @@
+@import "tailwindcss";
+@import "@fortawesome/fontawesome-free/css/all.css";
+
+@plugin "daisyui";
+
+.admin-theme body {
+    background-color: #0b1220; /* très sombre */
+    color: #e5e7eb; /* texte clair (gray-200) */
+}
+
+/* Surfaces */
+.admin-sidebar {
+    background-color: #0a0f1a;
+    border-color: #243042;
+}
+
+.admin-topbar {
+    background-color: rgba(10, 15, 26, 0.85);
+    border-color: #243042;
+    backdrop-filter: blur(10px);
+}
+
+/* “Surface” principale (le bloc qui contient la page) */
+.admin-surface {
+    background-color: rgba(15, 23, 42, 0.55); /* slate-900-ish */
+    border-color: #243042;
+}
+
+/* Cards / stats */
+.admin-card {
+    background-color: rgba(15, 23, 42, 0.75);
+    border-color: #243042;
+    color: #e5e7eb;
+}
+
+/* Petits textes secondaires */
+.admin-muted {
+    color: #94a3b8; /* slate-400 */
+}

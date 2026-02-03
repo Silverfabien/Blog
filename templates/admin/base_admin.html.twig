@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block html_class %}admin-theme{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ vite_entry_link_tags('appAdmin') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ vite_entry_script_tags('appAdmin') }}
+{% endblock %}
+
+{% block layout_header %}{% endblock %}
+{% block layout_footer %}{% endblock %}
+
+{% block body %}
+    <div class="drawer lg:drawer-open min-h-screen">
+        <input id="admin-drawer" type="checkbox" class="drawer-toggle">
+
+        <div class="drawer-content flex flex-col">
+            {% include 'admin/layouts/_topbar.html.twig' %}
+
+            <main class="p-4 lg:p-6">
+                <div class="admin-surface border rounded-box p-4 lg:p-6">
+                    {% block admin_content %}{% endblock %}
+                </div>
+            </main>
+        </div>
+
+        <div class="drawer-side z-40">
+            <label for="admin-drawer" aria-label="Fermer le menu" class="drawer-overlay"></label>
+            {% include 'admin/layouts/_sidebar.html.twig' %}
+        </div>
+    </div>
+{% endblock %}
+

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="light">
+<html lang="fr" class="{% block html_class %}{% endblock %}">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +14,9 @@
         {% endblock %}
     </head>
     <body>
-        {% include 'layouts/_navbar.html.twig' %}
+        {% block layout_header %}
+            {% include 'layouts/_navbar.html.twig' %}
+        {% endblock %}
 
         {% set typeMap = {
             info: 'info',
@@ -42,6 +44,9 @@
 
         {{ render(controller('App\\Controller\\Security\\SecurityController::authModals')) }}
         {% block body %}{% endblock %}
-        {% include 'layouts/_footer.html.twig' %}
+
+        {% block layout_footer %}
+            {% include 'layouts/_footer.html.twig' %}
+        {% endblock %}
     </body>
 </html>

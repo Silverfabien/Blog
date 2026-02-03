@@ -1,0 +1,71 @@
+<aside class="admin-sidebar w-80 min-h-full border-r flex flex-col">
+    <div class="px-4 py-4 flex items-center justify-between gap-3 border-b border-base-300">
+        <a href="{{ path('admin_dashboard') }}" class="flex items-center gap-3">
+            <div class="avatar placeholder">
+                <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-primary/20">
+                    <span class="font-bold">B</span>
+                </div>
+            </div>
+            <div class="leading-tight">
+                <div class="font-semibold">Blog<span class="text-primary">IA</span></div>
+                <div class="text-xs opacity-70">Panneau de contrôle</div>
+            </div>
+        </a>
+
+        <label for="admin-drawer" class="btn btn-ghost btn-sm lg:hidden" title="Fermer">
+            <i class="fa-solid fa-xmark"></i>
+        </label>
+    </div>
+
+    <nav class="p-3 flex-1 overflow-y-auto">
+        <ul class="menu menu-sm gap-1">
+            <li>
+                <a href="{{ path('admin_dashboard') }}"
+                   class="{{ app.request.attributes.get('_route') starts with 'admin_dashboard' ? 'active' : '' }}">
+                    <i class="fa-solid fa-gauge-high w-5"></i>
+                    Dashboard
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa-regular fa-newspaper w-5"></i>
+                    Articles
+                    <span class="badge badge-ghost badge-sm ml-auto">Bientôt</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa-regular fa-comments w-5"></i>
+                    Commentaires
+                    <span class="badge badge-ghost badge-sm ml-auto">Bientôt</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa-regular fa-user w-5"></i>
+                    Utilisateurs
+                    <span class="badge badge-ghost badge-sm ml-auto">Bientôt</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa-regular fa-envelope w-5"></i>
+                    Contact
+                    <span class="badge badge-ghost badge-sm ml-auto">Bientôt</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="p-4 border-t border-base-300">
+        <div class="flex items-center gap-3">
+            <div class="min-w-0">
+                <div class="text-sm font-medium truncate">{{ user.username }}</div>
+                <div class="text-xs opacity-70 truncate">Administrateur</div>
+            </div>
+            <a href="{{ path('default') }}" class="btn btn-ghost btn-sm ml-auto" title="Retour au site">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+        </div>
+    </div>
+</aside>

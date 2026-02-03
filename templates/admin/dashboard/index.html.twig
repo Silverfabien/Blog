@@ -1,0 +1,50 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Admin • Dashboard{% endblock %}
+
+{% block admin_content %}
+    <div class="flex items-start justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-semibold text-slate-100">Dashboard</h1>
+        </div>
+
+        <a class="btn btn-outline btn-sm" href="{{ path('default') }}">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            Retour au site
+        </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mt-6">
+        <div class="stat admin-card rounded-box border">
+            <div class="stat-figure text-violet-400"><i class="fa-regular fa-newspaper text-xl"></i></div>
+            <div class="stat-title admin-muted">Articles</div>
+            <div class="stat-value text-slate-100">{{ countArticle }}</div>
+            <div class="stat-desc admin-muted">{{ countArticleLastDay }} durant les derniers 24 heures</div>
+            <div class="stat-desc admin-muted">{{ countArticleLast7Days }} durant les 7 derniers jours</div>
+        </div>
+
+        <div class="stat admin-card rounded-box border">
+            <div class="stat-figure text-cyan-400"><i class="fa-regular fa-comments text-xl"></i></div>
+            <div class="stat-title admin-muted">Commentaires</div>
+            <div class="stat-value text-slate-100">{{ countComment }}</div>
+            <div class="stat-desc admin-muted">{{ countCommentLastDay }} durant les derniers 24 heures</div>
+            <div class="stat-desc admin-muted">{{ countCommentLast7Days }} durant les 7 derniers jours</div>
+        </div>
+
+        <div class="stat admin-card rounded-box border">
+            <div class="stat-figure text-emerald-400"><i class="fa-regular fa-user text-xl"></i></div>
+            <div class="stat-title admin-muted">Utilisateurs</div>
+            <div class="stat-value text-slate-100">{{ countUser }}</div>
+            <div class="stat-desc admin-muted">{{ countUserLastDay }} durant les derniers 24 heures</div>
+            <div class="stat-desc admin-muted">{{ countUserLast7Days }} durant les 7 derniers jours</div>
+        </div>
+
+        <div class="stat admin-card rounded-box border">
+            <div class="stat-figure text-fuchsia-400"><i class="fa-regular fa-envelope text-xl"></i></div>
+            <div class="stat-title admin-muted">Contacts</div>
+            <div class="stat-value text-slate-100">{{ countContact }}</div>
+            <div class="stat-desc admin-muted">{{ countContactLastDay }} durant les derniers 24 heures</div>
+            <div class="stat-desc admin-muted">{{ countContactLast7Days }} durant les 7 derniers jours</div>
+        </div>
+    </div>
+{% endblock %}

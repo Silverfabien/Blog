@@ -3,6 +3,7 @@
 namespace App\Repository\Article;
 
 use App\Entity\Article\Article;
+use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -56,5 +57,29 @@ class ArticleRepository extends ServiceEntityRepository
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
+    }
+
+    public function countLastDay(): int
+    {
+        $date = new DateTimeImmutable('-24 hours');
+
+        return (int) $this->createQueryBuilder('a')
+            ->select('COUNT(a.id)')
+            ->andWhere('a.publishAt > :date')
+            ->setParameter('date', $date)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function countLast7Days(): int
+    {
+        $date = new DateTimeImmutable('-7 days');
+
+        return (int) $this->createQueryBuilder('a')
+            ->select('COUNT(a.id)')
+            ->andWhere('a.publishAt > :date')
+            ->setParameter('date', $date)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 }

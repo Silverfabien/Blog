@@ -2003,12 +2003,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Silverfabien/Silversat-Permission-Bundle.git",
-                "reference": "896927e3d79aea3d1d942a1922e823daa86fe4c2"
+                "reference": "0bb16cdd6d11e51cd00a8e305358c8341e861efb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Silverfabien/Silversat-Permission-Bundle/zipball/896927e3d79aea3d1d942a1922e823daa86fe4c2",
-                "reference": "896927e3d79aea3d1d942a1922e823daa86fe4c2",
+                "url": "https://api.github.com/repos/Silverfabien/Silversat-Permission-Bundle/zipball/0bb16cdd6d11e51cd00a8e305358c8341e861efb",
+                "reference": "0bb16cdd6d11e51cd00a8e305358c8341e861efb",
                 "shasum": ""
             },
             "require": {
@@ -2038,7 +2038,7 @@
                 "source": "https://github.com/Silverfabien/Silversat-Permission-Bundle/tree/develop",
                 "issues": "https://github.com/Silverfabien/Silversat-Permission-Bundle/issues"
             },
-            "time": "2025-12-12T18:47:41+00:00"
+            "time": "2026-01-31T17:42:48+00:00"
         },
         {
             "name": "stof/doctrine-extensions-bundle",

@@ -4,6 +4,7 @@ namespace App\Repository\Article;
 
 use App\Entity\Article\Article;
 use App\Entity\Article\Comment;
+use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -39,10 +40,34 @@ class CommentRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('c')
             ->andWhere('c.article = :article')
             ->setParameter('article', $article)
-            ->orderBy('c.createdAt', 'ASC') // On garde l'ordre chronologique
-            ->setFirstResult(($page - 1) * $limit) // Offset : d'où on commence
-            ->setMaxResults($limit) // Combien on en prend
+            ->orderBy('c.createdAt', 'ASC')
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
+    }
+
+    public function countLastDay(): int
+    {
+        $date = new DateTimeImmutable('-24 hours');
+
+        return (int) $this->createQueryBuilder('c')
+            ->select('COUNT(c.id)')
+            ->andWhere('c.createdAt > :date')
+            ->setParameter('date', $date)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function countLast7Days(): int
+    {
+        $date = new DateTimeImmutable('-7 days');
+
+        return (int) $this->createQueryBuilder('c')
+            ->select('COUNT(c.id)')
+            ->andWhere('c.createdAt > :date')
+            ->setParameter('date', $date)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 }

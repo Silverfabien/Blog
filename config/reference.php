@@ -1348,6 +1348,10 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  * @psalm-type SilversatPermissionConfig = array{
  *     site: scalar|null,
  *     hierarchy?: array<string, list<scalar|null>>,
+ *     access_control?: list<array{ // Default: []
+ *         path: scalar|null,
+ *         role: scalar|null,
+ *     }>,
  * }
  * @psalm-type PentatrionViteConfig = array{
  *     public_directory?: scalar|null, // Default: "public"

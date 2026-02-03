@@ -26,7 +26,8 @@ export default defineConfig({
                 avatar: "./assets/styles/js/avatar/avatar.js",
                 article_like: "./assets/styles/js/article/article_like.js",
                 article_image: "./assets/styles/js/article/article_image.js",
-                confirmation_account: "./assets/styles/js/security/confirmation_account.js"
+                confirmation_account: "./assets/styles/js/security/confirmation_account.js",
+                appAdmin: "./assets/styles/js/admin/app.js"
             },
             output: {
                 assetFileNames: (assetInfo) => {
