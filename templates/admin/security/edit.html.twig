@@ -1,0 +1,94 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Admin • Utilisateurs - edit{% endblock %}
+
+{% block admin_content %}
+    <div class="flex items-start justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-semibold text-slate-100">Modifier un utilisateur</h1>
+            <p class="admin-muted mt-1">Met à jour les informations du profil.</p>
+        </div>
+
+        <a href="{{ path('admin_user_index') }}" class="btn btn-outline btn-sm">
+            <i class="fa-solid fa-arrow-left"></i>
+            Retour
+        </a>
+    </div>
+
+    <div class="mt-6 admin-card border rounded-box overflow-visible">
+        <div class="p-6 lg:p-8">
+            <div class="flex items-center gap-2 mb-6">
+                <i class="fa-regular fa-id-card text-violet-400"></i>
+                <h2 class="text-lg font-semibold text-slate-100">Informations du profil</h2>
+            </div>
+
+            {{ form_start(userForm, {
+                'attr': {
+                    'id': 'user-edit',
+                    'data-turbo': 'false',
+                    'data-user-api-id': attribute(user, 'userApiId'),
+                    'class': 'grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5'
+                }
+            }) }}
+
+            <div class="flex flex-col gap-2">
+                <div class="text-xs uppercase tracking-wide admin-muted">Nom d'utilisateur</div>
+                {{ form_widget(userForm.username, {
+                    'attr': {
+                        'class': 'input input-sm w-full bg-slate-900 text-slate-100 border border-slate-700 focus:border-violet-400 focus:outline-none'}
+                }) }}
+                {{ form_errors(userForm.username) }}
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <div class="text-xs uppercase tracking-wide admin-muted">Email</div>
+                {{ form_widget(userForm.email, {
+                    'attr': {
+                        'class': 'input input-sm w-full bg-slate-900 text-slate-100 border border-slate-700 focus:border-violet-400 focus:outline-none'}
+                }) }}
+                {{ form_errors(userForm.email) }}
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <div class="text-xs uppercase tracking-wide admin-muted">Rôle</div>
+                {{ form_widget(userForm.role, {
+                    'attr': {
+                        'class': 'select select-sm w-full bg-slate-900 text-slate-100 border border-slate-700 focus:border-violet-400 focus:outline-none'}
+                }) }}
+                {{ form_errors(userForm.role) }}
+            </div>
+
+            <div class="md:col-span-2">
+                <div class="flex items-center justify-between gap-4 p-4 rounded-lg border border-slate-700 bg-slate-950/30">
+                    <div class="min-w-0">
+                        <div class="font-medium text-slate-100">Photo de profil</div>
+                        <div class="text-sm admin-muted">Cocher pour demander la suppression de l’image.</div>
+                    </div>
+
+                    <label class="label cursor-pointer gap-3">
+                        <span class="text-sm admin-muted">Supprimer</span>
+                        {{ form_widget(userForm.picture, {
+                            'attr': {
+                                'class': 'checkbox checkbox-sm admin-checkbox'}
+                        }) }}
+                    </label>
+                </div>
+                {{ form_errors(userForm.picture) }}
+            </div>
+
+            <div class="md:col-span-2 mt-2 flex items-center justify-end gap-3 border-t border-slate-700 pt-6">
+                <button type="submit" class="btn btn-primary btn-sm px-8">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Enregistrer
+                </button>
+            </div>
+
+            {{ form_end(userForm) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ vite_entry_script_tags('userAdmin') }}
+{% endblock %}
