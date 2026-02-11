@@ -86,6 +86,41 @@
             {{ form_end(userForm) }}
         </div>
     </div>
+
+    <div class="mt-6 admin-card border rounded-box overflow-visible">
+        <div class="p-6 lg:p-8">
+            <div class="flex items-center gap-2 mb-6">
+                <i class="fa-solid fa-pen-nib text-cyan-400"></i>
+                <h2 class="text-lg font-semibold text-slate-100">Signature</h2>
+            </div>
+
+            {{ form_start(signatureForm, {
+                'attr': {
+                    'id': 'signature-edit',
+                    'class': 'grid grid-cols-1 gap-4'
+                }
+            }) }}
+
+            <div class="flex flex-col gap-2">
+                <div class="text-xs uppercase tracking-wide admin-muted">La signature</div>
+                {{ form_widget(signatureForm.signature, {
+                    'attr': {
+                        'class': 'input input-sm w-full bg-slate-900 text-slate-100 border border-slate-700 focus:border-violet-400 focus:outline-none'
+                    }
+                }) }}
+                {{ form_errors(signatureForm) }}
+            </div>
+
+            <div class="flex items-center justify-end gap-3 border-t border-slate-700 pt-6">
+                <button type="submit" class="btn btn-primary btn-sm px-8">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Enregistrer la signature
+                </button>
+            </div>
+
+            {{ form_end(signatureForm) }}
+        </div>
+    </div>
 {% endblock %}
 
 {% block javascripts %}
