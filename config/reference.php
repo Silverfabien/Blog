@@ -1348,6 +1348,10 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  * @psalm-type SilversatPermissionConfig = array{
  *     site: scalar|null,
  *     hierarchy?: array<string, list<scalar|null>>,
+ *     access_control?: list<array{ // Default: []
+ *         path: scalar|null,
+ *         role: scalar|null,
+ *     }>,
  * }
  * @psalm-type PentatrionViteConfig = array{
  *     public_directory?: scalar|null, // Default: "public"
@@ -1483,6 +1487,53 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *     },
  *     default_transport?: scalar|null, // Default: "default"
  * }
+ * @psalm-type TwigExtraConfig = array{
+ *     cache?: bool|array{
+ *         enabled?: bool, // Default: false
+ *     },
+ *     html?: bool|array{
+ *         enabled?: bool, // Default: false
+ *     },
+ *     markdown?: bool|array{
+ *         enabled?: bool, // Default: false
+ *     },
+ *     intl?: bool|array{
+ *         enabled?: bool, // Default: false
+ *     },
+ *     cssinliner?: bool|array{
+ *         enabled?: bool, // Default: false
+ *     },
+ *     inky?: bool|array{
+ *         enabled?: bool, // Default: false
+ *     },
+ *     string?: bool|array{
+ *         enabled?: bool, // Default: true
+ *     },
+ *     commonmark?: array{
+ *         renderer?: array{ // Array of options for rendering HTML.
+ *             block_separator?: scalar|null,
+ *             inner_separator?: scalar|null,
+ *             soft_break?: scalar|null,
+ *         },
+ *         html_input?: "strip"|"allow"|"escape", // How to handle HTML input.
+ *         allow_unsafe_links?: bool, // Remove risky link and image URLs by setting this to false. // Default: true
+ *         max_nesting_level?: int, // The maximum nesting level for blocks. // Default: 9223372036854775807
+ *         max_delimiters_per_line?: int, // The maximum number of strong/emphasis delimiters per line. // Default: 9223372036854775807
+ *         slug_normalizer?: array{ // Array of options for configuring how URL-safe slugs are created.
+ *             instance?: mixed,
+ *             max_length?: int, // Default: 255
+ *             unique?: mixed,
+ *         },
+ *         commonmark?: array{ // Array of options for configuring the CommonMark core extension.
+ *             enable_em?: bool, // Default: true
+ *             enable_strong?: bool, // Default: true
+ *             use_asterisk?: bool, // Default: true
+ *             use_underscore?: bool, // Default: true
+ *             unordered_list_markers?: list<scalar|null>,
+ *         },
+ *         ...<mixed>
+ *     },
+ * }
  * @psalm-type ConfigType = array{
  *     imports?: ImportsConfig,
  *     parameters?: ParametersConfig,
@@ -1499,6 +1550,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *     vich_uploader?: VichUploaderConfig,
  *     stimulus?: StimulusConfig,
  *     turbo?: TurboConfig,
+ *     twig_extra?: TwigExtraConfig,
  *     "when@dev"?: array{
  *         imports?: ImportsConfig,
  *         parameters?: ParametersConfig,
@@ -1517,6 +1569,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         vich_uploader?: VichUploaderConfig,
  *         stimulus?: StimulusConfig,
  *         turbo?: TurboConfig,
+ *         twig_extra?: TwigExtraConfig,
  *     },
  *     "when@prod"?: array{
  *         imports?: ImportsConfig,
@@ -1534,6 +1587,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         vich_uploader?: VichUploaderConfig,
  *         stimulus?: StimulusConfig,
  *         turbo?: TurboConfig,
+ *         twig_extra?: TwigExtraConfig,
  *     },
  *     "when@test"?: array{
  *         imports?: ImportsConfig,
@@ -1552,6 +1606,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         vich_uploader?: VichUploaderConfig,
  *         stimulus?: StimulusConfig,
  *         turbo?: TurboConfig,
+ *         twig_extra?: TwigExtraConfig,
  *     },
  *     ...<string, ExtensionType|array{ // extra keys must follow the when@%env% pattern or match an extension alias
  *         imports?: ImportsConfig,

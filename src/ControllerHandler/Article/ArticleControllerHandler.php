@@ -62,13 +62,6 @@ readonly class ArticleControllerHandler
         return false;
     }
 
-    public function delete(Article $article): bool
-    {
-        $this->articleRepository->remove($article);
-
-        return true;
-    }
-
     public function see(Article $article): bool
     {
         $article->setSee($article->getSee() + 1);

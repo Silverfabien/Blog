@@ -4,3 +4,5 @@ silversat_permission:
         ROLE_ADMIN: [ROLE_FRIEND, ROLE_AUTHOR]
         ROLE_FRIEND: ROLE_USER
         ROLE_AUTHOR: ROLE_USER
+    access_control:
+        - { path: ^/admin, role: ROLE_ADMIN }

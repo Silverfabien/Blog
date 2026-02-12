@@ -1,0 +1,29 @@
+<header class="admin-topbar border-b">
+    <div class="px-4 lg:px-6 h-14 flex items-center gap-3">
+        <label for="admin-drawer" class="btn btn-ghost btn-sm lg:hidden" title="Menu">
+            <i class="fa-solid fa-bars"></i>
+        </label>
+
+        <div class="flex items-center gap-3">
+            <div class="text-sm font-semibold">Admin</div>
+            <div class="text-xs admin-muted hidden sm:block">Panneau de contrôle</div>
+        </div>
+
+        <div class="ml-auto dropdown dropdown-end">
+            <div tabindex="0" role="button" class="btn btn-primary btn-sm">
+                <i class="fa-regular fa-user"></i>
+                <span class="hidden sm:inline">Compte</span>
+                <i class="fa-solid fa-chevron-down opacity-80"></i>
+            </div>
+
+            <ul
+                tabindex="0"
+                class="dropdown-content menu mt-2 w-56 rounded-box border shadow bg-slate-900 text-slate-100 border-slate-700"
+            >
+                <li><a href="{{ path('account') }}"><i class="fa-regular fa-id-badge w-5"></i>Profil</a></li>
+                <li><hr class="border-slate-700" /></li>
+                <li><a href="{{ path('default') }}"><i class="fa-solid fa-arrow-left w-5"></i>Retour au site</a></li>
+            </ul>
+        </div>
+    </div>
+</header>

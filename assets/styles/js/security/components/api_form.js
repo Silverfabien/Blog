@@ -6,20 +6,26 @@ export function handleForm(formId, apiUrl, fields, extras = {}) {
 
         const data = {};
         fields.forEach(field => {
-            const $el = $(formId).find(`[id$='_${field}']`);
+            const baseSelector = `[id$='_${field}']`;
 
-            // Pour RepeatedPassword
-            if ($el.length > 0) {
-                if (field.includes('_')) {
-                    const parts = field.split('_');
-                    const mainKey = parts[0];
-                    const subKey = parts[1];
+            const $checkbox = $(formId).find(`${baseSelector}[type="checkbox"]`);
+            const $el = $checkbox.length
+                ? $checkbox
+                : $(formId).find(`${baseSelector}:not([type="hidden"])`).first();
 
-                    if (!data[mainKey]) data[mainKey] = {};
-                    data[mainKey][subKey] = $el.val();
-                } else {
-                    data[field] = $el.val();
-                }
+            if ($el.length === 0) {
+                return;
+            }
+
+            const value = $el.is(':checkbox') ? $el.prop('checked') : $el.val();
+
+            if (field.includes('_')) {
+                const [mainKey, subKey] = field.split('_');
+
+                if (!data[mainKey]) data[mainKey] = {};
+                data[mainKey][subKey] = value;
+            } else {
+                data[field] = value;
             }
         });
 

@@ -3,6 +3,7 @@
 namespace App\Repository\User;
 
 use App\Entity\User\User;
+use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -25,5 +26,29 @@ class UserRepository extends ServiceEntityRepository
     public function update($user): void
     {
         $this->getEntityManager()->flush();
+    }
+
+    public function countLastDay(): int
+    {
+        $date = new DateTimeImmutable('-24 hours');
+
+        return (int) $this->createQueryBuilder('u')
+            ->select('COUNT(u.id)')
+            ->andWhere('u.createdAt > :date')
+            ->setParameter('date', $date)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function countLast7Days(): int
+    {
+        $date = new DateTimeImmutable('-7 days');
+
+        return (int) $this->createQueryBuilder('u')
+            ->select('COUNT(u.id)')
+            ->andWhere('u.createdAt > :date')
+            ->setParameter('date', $date)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 }

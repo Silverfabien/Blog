@@ -1,0 +1,181 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Admin • Commentaires{% endblock %}
+
+{% block admin_content %}
+    <div class="flex items-start justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-semibold text-slate-100">Commentaires</h1>
+            <p class="admin-muted mt-1">Gérer les commentaires du site.</p>
+        </div>
+    </div>
+
+    <div class="mt-6 admin-card border rounded-box">
+        <div class="p-4 flex flex-col md:flex-row md:items-center gap-3">
+            <div class="flex-1">
+                <label class="input input-sm bg-slate-900 text-slate-100 border-slate-700 flex items-center gap-2 w-full">
+                    <i class="fa-solid fa-magnifying-glass opacity-70"></i>
+                    <input type="text" class="grow" placeholder="Recherche (UI uniquement pour l’instant)" />
+                </label>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <button class="btn btn-outline btn-sm" type="button" disabled>
+                    <i class="fa-solid fa-filter"></i>
+                    Filtres
+                </button>
+                <button class="btn btn-ghost btn-sm" type="button" disabled title="Bientôt">
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="divider m-0"></div>
+
+        <div class="admin-table-scroll">
+            <div class="admin-table-inner">
+                <table class="table admin-table">
+                    <thead>
+                    <tr class="text-slate-300">
+                        <th class="w-14">#</th>
+                        <th class="hidden lg:table-cell">Auteur</th>
+                        <th class="hidden lg:table-cell">Article</th>
+                        <th class="hidden xl:table-cell">Contenu</th>
+                        <th class="hidden xl:table-cell">Créé le</th>
+                        <th class="hidden xl:table-cell">MAJ</th>
+                        <th class="w-24 text-right">Actions</th>
+                    </tr>
+                    </thead>
+
+                    <tbody class="text-slate-100">
+                    {% if comments is empty %}
+                        <tr>
+                            <td colspan="6">
+                                <div class="p-6 text-center">
+                                    <div class="text-slate-200 font-semibold">Aucun commentaires</div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        {% for comment in comments %}
+                            {% set modalId = 'comment-actions-' ~ comment.id %}
+                            {% set modalContentId = 'comment-content-' ~ comment.id %}
+                            <tr class="admin-row hover">
+                                <td class="text-slate-400">
+                                    {{ comment.id }}
+                                </td>
+
+                                <td class="hidden lg:table-cell admin-muted">
+                                    {{ comment.author.username }}
+                                </td>
+
+                                <td class="hidden lg:table-cell admin-muted">
+                                    {{ comment.article.title|u.truncate(25, '...') }}
+                                </td>
+
+                                <td class="hidden xl:table-cell admin-muted">
+                                    <button class="text-left w-full hover:underline hover:text-slate-100" type="button" onclick="document.getElementById('{{ modalContentId|e('js') }}').showModal()">
+                                        {{ comment.content|u.truncate(50, '...')|striptags }}
+                                    </button>
+
+                                    <dialog id="{{ modalContentId }}" class="modal">
+                                        <div class="modal-box bg-slate-900 text-slate-100 border border-slate-700 max-w-3xl">
+                                            <div class="flex items-start justify-between gap-4">
+                                                <div class="min-w-0">
+                                                    <h3 class="font-semibold text-lg truncate">Contenu du commentaire</h3>
+                                                </div>
+
+                                                <form method="dialog">
+                                                    <button class="btn btn-ghost btn-sm" aria-label="Fermer">
+                                                        <i class="fa-solid fa-xmark"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+
+                                            <div class="divider my-4 border-slate-700"></div>
+
+                                            <div class="prose prose-invert max-w-none">
+                                                <pre class="whitespace-pre-wrap wrap-break-word bg-slate-950/40 border border-slate-700 rounded-lg p-4 text-sm text-slate-100">
+                                                    {{ comment.content|raw }}
+                                                </pre>
+                                            </div>
+
+                                            <div class="modal-action">
+                                                <form method="dialog">
+                                                    <button class="btn btn-primary btn-sm">Fermer</button>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                        <form method="dialog" class="modal-backdrop">
+                                            <button>close</button>
+                                        </form>
+                                    </dialog>
+                                </td>
+
+                                <td class="hidden xl:table-cell admin-muted">
+                                    {{ comment.createdAt|date('d/m/Y H:i') }}
+                                </td>
+
+                                <td class="hidden xl:table-cell admin-muted">
+                                    {{ comment.updatedAt ? comment.updatedAt|date('d/m/Y H:i') : '—' }}
+                                </td>
+
+                                <td class="text-right">
+                                    <button class="btn btn-ghost btn-sm" type="button" onclick="document.getElementById('{{ modalId|e('js') }}').showModal()">
+                                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                                    </button>
+
+                                    <dialog id="{{ modalId }}" class="modal">
+                                        <div class="modal-box bg-slate-900 text-slate-100 border border-slate-700">
+                                            <div class="flex items-start justify-between gap-4">
+                                                <div class="min-w-0">
+                                                    <h3 class="font-semibold text-lg truncate">Actions</h3>
+                                                </div>
+
+                                                <form method="dialog">
+                                                    <button class="btn btn-ghost btn-sm" aria-label="Fermer">
+                                                        <i class="fa-solid fa-xmark"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+
+                                            <div class="divider my-4 border-slate-700"></div>
+
+                                            <div class="grid gap-2">
+                                                {{ include('admin/article/comment/_delete_form.html.twig') }}
+                                            </div>
+
+                                            <div class="modal-action">
+                                                <form method="dialog">
+                                                    <button class="btn btn-primary btn-sm">Fermer</button>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                        <form method="dialog" class="modal-backdrop">
+                                            <button>close</button>
+                                        </form>
+                                    </dialog>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="divider m-0"></div>
+
+        <div class="p-4 flex items-center justify-between text-sm">
+            <div class="admin-muted">
+                Total : <span class="text-slate-100 font-medium">{{ comments|length }}</span>
+            </div>
+
+            <div class="admin-muted">
+                Pagination : <span class="text-slate-100 font-medium">bientôt</span>
+            </div>
+        </div>
+    </div>
+{% endblock %}

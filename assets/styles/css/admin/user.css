@@ -1,0 +1,15 @@
+.admin-checkbox {
+    border-color: #64748b;
+    background-color: rgba(2, 6, 23, 0.35);
+}
+
+.admin-checkbox:checked {
+    background-color: #7c3aed;
+    border-color: #a78bfa;
+}
+
+.admin-checkbox:checked:focus-visible,
+.admin-checkbox:focus-visible {
+    outline: 2px solid #a78bfa;
+    outline-offset: 2px;
+}
