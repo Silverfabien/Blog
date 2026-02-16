@@ -28,6 +28,12 @@ class UserRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
+    public function remove($user): void
+    {
+        $this->getEntityManager()->remove($user);
+        $this->getEntityManager()->flush();
+    }
+
     public function countLastDay(): int
     {
         $date = new DateTimeImmutable('-24 hours');
