@@ -6,4 +6,5 @@ $(document).ready(function(){
 
     handleForm('#user-edit', apiUrl+'/user_edit', ['username', 'email']);
     handleForm('#reset-password', apiUrl+'/reset_password', ['password_first', 'password_second']);
+    handleForm('#soft-delete', apiUrl+'/soft_delete', ['reason'], {}, { logoutOnSuccess: true });
 });
