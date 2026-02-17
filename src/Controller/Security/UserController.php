@@ -6,6 +6,7 @@ use App\ControllerHandler\Security\UserControllerHandler;
 use App\DTO\Security\UserEditDTO;
 use App\Form\Security\ResetPasswordType;
 use App\Form\Security\SignatureType;
+use App\Form\Security\SoftDeletedAccountType;
 use App\Form\Security\UserEditType;
 use App\Repository\User\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,6 +38,7 @@ final class UserController extends AbstractController
         $userForm = $this->createForm(UserEditType::class, $userDto)->handleRequest($request);
         $resetPasswordForm = $this->createForm(ResetPasswordType::class)->handleRequest($request);
         $signatureForm = $this->createForm(SignatureType::class, $user)->handleRequest($request);
+        $softDeleteForm = $this->createForm(SoftDeletedAccountType::class)->handleRequest($request);
 
         if ($this->userControllerHandler->new($signatureForm, $user)) {
             return $this->redirectToRoute('account');
@@ -46,6 +48,7 @@ final class UserController extends AbstractController
             'userForm' => $userForm->createView(),
             'resetPasswordForm' => $resetPasswordForm->createView(),
             'signatureForm' => $signatureForm->createView(),
+            'softDeleteForm' => $softDeleteForm->createView(),
             'user' => $user,
             'userInfo' => $userInfo['otherData']
         ]);

@@ -1,6 +1,6 @@
 import { saveFlashForNextPage } from "./../../components/apiFlash.js";
 
-export function handleForm(formId, apiUrl, fields, extras = {}) {
+export function handleForm(formId, apiUrl, fields, extras = {}, options = {}) {
     $(formId).on('submit', function(e){
         e.preventDefault();
 
@@ -75,6 +75,27 @@ export function handleForm(formId, apiUrl, fields, extras = {}) {
                     window.location.href = '/';
                 } else {
                     $(`${formId} ~ #result`).removeClass('text-danger').addClass('text-success').text('Opération réussie.');
+                }
+
+                if (options.logoutOnSuccess === true) {
+                    const apiBaseUrl = import.meta.env.VITE_API_URL;
+
+                    $.ajax({
+                        url: apiBaseUrl + '/logout',
+                        method: 'POST',
+                        xhrFields: { withCredentials: true },
+                        complete: function () {
+                            $.ajax({
+                                url: '/logout-session',
+                                method: 'POST',
+                                complete: function () {
+                                    window.location.href = '/';
+                                }
+                            });
+                        }
+                    });
+
+                    return;
                 }
 
                 setTimeout(() => {
